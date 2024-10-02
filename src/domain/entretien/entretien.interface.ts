@@ -1,15 +1,10 @@
-export interface CreationRequest {
-    disponibiliteRecruteur: string;
-    horaire: string;
-    recruteurId: number;
-    candidatId: number;
-}
+import { Entretien } from "./entretien.port";
 
-export enum CreationResult {
-    HORAIRE,
-    CANDIDAT_PAS_TROUVE,
-    RECRUTEUR_PAS_TROUVE,
-    PAS_COMPATIBLE,
-    CANDIDAT_TROP_JEUNE,
-    OK,
+export interface IEntretienRepository {
+  save(entretien: Entretien): Promise<Entretien>;
+  retrieveAll(): Promise<Entretien[]>;
+  retrieveById(entretienId: number): Promise<Entretien | null>;
+  update(entretien: Entretien): Promise<number>;
+  delete(entretienId: number): Promise<number>;
+  deleteAll(): Promise<number>;
 }

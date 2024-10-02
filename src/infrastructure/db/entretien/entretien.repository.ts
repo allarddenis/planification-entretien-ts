@@ -1,4 +1,4 @@
-import Entretien from '@domain/entretien/entretien.model';
+import { Entretien } from '@domain/entretien';
 import EntretienSQL from './entretien.sql';
 
 interface SearchCondition {
@@ -71,4 +71,4 @@ class EntretienRepository {
   }
 }
 
-export default new EntretienRepository();
+export const sqlEntretienRepository = new EntretienRepository();

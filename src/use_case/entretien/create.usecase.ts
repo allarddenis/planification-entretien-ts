@@ -1,26 +1,41 @@
-import { ICandidatRepository, SaveRequest, SaveResponse, Candidat } from "@domain/candidat";
+import { CreationRequest, CreationResult, Entretien, IEntretienRepository } from "@domain/entretien";
+import recruteurRepository from "@infrastructure/db/recruteur/recruteur.repository";
+import notificationService from "@domain/notification.service";
 import registry from "@registry/registry";
 
 export class CreateEntretienUseCase {
-    private candidatRepository: ICandidatRepository;
+    private entretienRepository = registry.entretienRepository;
+    private candidatRepository = registry.candidatRepository;
 
-    constructor() {
-        this.candidatRepository = registry.getCandidatRepository();
-    }
-
-    async execute(req: SaveRequest) : Promise<[SaveResponse, Candidat | null]> {
-        let isEmailValid: boolean;
-
-        const regexp: RegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-
-        isEmailValid = regexp.test(req.email);
-
-        if (!req.langage || !req.xp || req.xp < 0 || !req.email || !isEmailValid) {
-            return [SaveResponse.EMPTY_CONTENT, null];
+    async execute(req: CreationRequest) : Promise<[CreationResult, Entretien | null]> {
+        if (req.disponibiliteRecruteur != req.horaire) {
+            return [CreationResult.HORAIRE, null];
         }
 
-        const savedCandidat = await this.candidatRepository.save(req);
+        const recruteur = await recruteurRepository.retrieveById(req.recruteurId);
+        const candidat = await this.candidatRepository.retrieveById(req.candidatId);
 
-        return [SaveResponse.OK, savedCandidat];
+        if (!candidat) {
+            return [CreationResult.CANDIDAT_PAS_TROUVE, null];
+        }
+
+        if (!recruteur) {
+            return [CreationResult.RECRUTEUR_PAS_TROUVE, null];
+        }
+
+        if (recruteur.langage && candidat?.langage && recruteur.langage != candidat.langage) {
+            return [CreationResult.PAS_COMPATIBLE, null];
+        }
+
+        if (recruteur?.xp && candidat?.xp && recruteur.xp < candidat.xp) {
+            return [CreationResult.CANDIDAT_TROP_JEUNE, null];
+        }
+
+        const savedEntretien = await this.entretienRepository.save(req);
+
+        await notificationService.envoyerEmailDeConfirmationAuCandidat(candidat?.email || '');
+        await notificationService.envoyerEmailDeConfirmationAuRecruteur(recruteur?.email || '');
+
+        return [CreationResult.OK, savedEntretien];
     }
 }

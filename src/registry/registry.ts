@@ -1,14 +1,13 @@
-import { ICandidatRepository } from "@domain/candidat";
 import { sqlCandidatRepository } from "@infrastructure/db/candidat";
+import { sqlEntretienRepository } from "@infrastructure/db/entretien";
+import { IEntretienRepository } from "@domain/entretien";
+import { ICandidatRepository } from "@domain/candidat";
 
 class Registry {
     private static instance: Registry;
 
-    private candidatRepository: ICandidatRepository;
-
-    private constructor() {
-        this.candidatRepository = sqlCandidatRepository;
-    }
+    public readonly candidatRepository: ICandidatRepository = sqlCandidatRepository;
+    public readonly entretienRepository: IEntretienRepository = sqlEntretienRepository;
 
     public static getInstance(): Registry {
         if (!Registry.instance) {
@@ -16,10 +15,6 @@ class Registry {
         }
 
         return Registry.instance;
-    }
-
-    public getCandidatRepository(): ICandidatRepository {
-        return this.candidatRepository;
     }
 }
 

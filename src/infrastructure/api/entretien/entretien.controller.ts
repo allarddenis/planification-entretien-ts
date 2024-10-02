@@ -1,13 +1,16 @@
-import entretienRepository from '../../db/entretien/entretien.repository';
-import { CreationResult } from '@domain/entretien/entretien.interface';
-import entretienService from '@domain/entretien/entretien.service';
-import Entretien from '@domain/entretien/entretien.model';
+import { CreateEntretienUseCase } from '@use_case/entretien';
+import { CreationResult } from '@domain/entretien';
 import { Request, Response } from 'express';
+import registry from '@registry/registry';
 
 export default class EntretienController {
+
+  private createEntretienUseCase = new CreateEntretienUseCase();
+  private entretienRepository = registry.entretienRepository;
+
   async create(req: Request, res: Response) {
     try {
-      const [result, body] = await entretienService.create(req.body);
+      const [result, body] = await this.createEntretienUseCase.execute(req.body);
 
       switch (result) {
         case CreationResult.OK:
@@ -54,7 +57,7 @@ export default class EntretienController {
 
   async findAll(req: Request, res: Response) {
     try {
-      const entretiens = await entretienService.retrieveAll();
+      const entretiens = await this.entretienRepository.retrieveAll();
 
       res.status(200).send(entretiens);
     } catch (err) {
@@ -68,7 +71,7 @@ export default class EntretienController {
     const id: number = parseInt(req.params.id);
 
     try {
-      const entretien = await entretienRepository.retrieveById(id);
+      const entretien = await this.entretienRepository.retrieveById(id);
 
       if (entretien) res.status(200).send(entretien);
       else
@@ -83,11 +86,11 @@ export default class EntretienController {
   }
 
   async update(req: Request, res: Response) {
-    let entretien: Entretien = req.body;
+    let entretien = req.body;
     entretien.id = parseInt(req.params.id);
 
     try {
-      const num = await entretienRepository.update(entretien);
+      const num = await this.entretienRepository.update(entretien);
 
       if (num == 1) {
         res.status(204).send({
@@ -109,7 +112,7 @@ export default class EntretienController {
     const id: number = parseInt(req.params.id);
 
     try {
-      const num = await entretienRepository.delete(id);
+      const num = await this.entretienRepository.delete(id);
 
       if (num == 1) {
         res.status(204).send({
@@ -129,7 +132,7 @@ export default class EntretienController {
 
   async deleteAll(req: Request, res: Response) {
     try {
-      const num = await entretienRepository.deleteAll();
+      const num = await this.entretienRepository.deleteAll();
 
       res.status(204).send({ message: `${num} Entretiens were deleted successfully!` });
     } catch (err) {
