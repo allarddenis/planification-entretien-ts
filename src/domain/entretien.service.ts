@@ -1,5 +1,5 @@
 import recruteurRepository from '../infrastructure/db/recruteur/recruteur.repository';
-import candidatRepository from '../infrastructure/db/candidat/candidat.repository';
+import candidatRepository from '../infrastructure/db/candidat/candidat.sql.repository';
 import { Request, Response } from 'express';
 import Entretien from '../infrastructure/db/entretien/entretien.model';
 import entretienRepository from '../infrastructure/db/entretien/entretien.repository';

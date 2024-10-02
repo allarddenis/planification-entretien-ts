@@ -1,14 +1,15 @@
 import { Op } from "sequelize";
+import SQLCandidat from './candidat.sql';
 import Candidat from './candidat.model';
 
 interface SearchCondition {
   [key: string]: any;
 }
 
-class CandidatRepository {
+class SqlCandidatRepository {
   async save(candidat: Candidat): Promise<Candidat> {
     try {
-      return await Candidat.create({
+      return await SQLCandidat.create({
         title: candidat.langage,
         description: candidat.email,
         published: candidat.xp
@@ -25,7 +26,7 @@ class CandidatRepository {
       if (searchParams?.email)
         condition.email = { [Op.iLike]: `%${searchParams.email}%` };
 
-      return await Candidat.findAll({ where: condition });
+      return await SQLCandidat.findAll({ where: condition });
     } catch (error) {
       throw new Error("Failed to retrieve Candidats!");
     }
@@ -35,7 +36,7 @@ class CandidatRepository {
     try {
       let condition: SearchCondition = {};
       condition.id = { [Op.eq]: candidatId};
-      const candidat = await Candidat.findOne({ where: condition});
+      const candidat = await SQLCandidat.findOne({ where: condition});
       return candidat;
     } catch (error) {
       throw new Error("Failed to retrieve Candidats!");
@@ -46,7 +47,7 @@ class CandidatRepository {
     const { id, langage, email, xp } = candidat;
 
     try {
-      const affectedRows = await Candidat.update(
+      const affectedRows = await SQLCandidat.update(
         { langage: langage, email: email, xp: xp },
         { where: { id: id } }
       );
@@ -59,7 +60,7 @@ class CandidatRepository {
 
   async delete(candidatId: number): Promise<number> {
     try {
-      const affectedRows = await Candidat.destroy({ where: { id: candidatId } });
+      const affectedRows = await SQLCandidat.destroy({ where: { id: candidatId } });
 
       return affectedRows;
     } catch (error) {
@@ -69,7 +70,7 @@ class CandidatRepository {
 
   async deleteAll(): Promise<number> {
     try {
-      return Candidat.destroy({
+      return SQLCandidat.destroy({
         where: {},
         truncate: false
       });
@@ -79,4 +80,4 @@ class CandidatRepository {
   }
 }
 
-export default new CandidatRepository();
+export default new SqlCandidatRepository();

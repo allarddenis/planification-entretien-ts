@@ -1,8 +1,15 @@
 import Candidat from '../infrastructure/db/candidat/candidat.model';
-import candidatRepository from '../infrastructure/db/candidat/candidat.repository';
+import { ICandidatRepository } from '../infrastructure/db';
+import candidatRepository from '../infrastructure/db/candidat/candidat.sql.repository';
 import { Request, Response } from 'express';
 
 class CandidatService {
+
+    private candidatRepository: ICandidatRepository;
+
+    constructor(repo: ICandidatRepository) {
+        this.candidatRepository = repo;
+    }
 
     async save(req: Request, res: Response) {
         let isEmailValid: boolean;
@@ -20,30 +27,30 @@ class CandidatService {
 
         const candidat: Candidat = req.body;
 
-        const savedCandidat = await candidatRepository.save(candidat);
+        const savedCandidat = await this.candidatRepository.save(candidat);
 
         res.status(201).send(savedCandidat);
     }
 
     async retrieveAll(searchParams: { email?: string }): Promise<Candidat[]> {
-        return await candidatRepository.retrieveAll(searchParams);
+        return await this.candidatRepository.retrieveAll(searchParams);
     }
 
     async retrieveById(candidatId: number): Promise<Candidat | null> {
-        return await candidatRepository.retrieveById(candidatId);
+        return await this.candidatRepository.retrieveById(candidatId);
     }
 
     async update(candidat: Candidat): Promise<number> {
-        return await candidatRepository.update(candidat);
+        return await this.candidatRepository.update(candidat);
     }
 
     async delete(candidatId: number): Promise<number> {
-        return await candidatRepository.delete(candidatId);
+        return await this.candidatRepository.delete(candidatId);
     }
 
     async deleteAll(): Promise<number> {
-        return await candidatRepository.deleteAll();
+        return await this.candidatRepository.deleteAll();
     }
 }
 
-export default new CandidatService();
+export default new CandidatService(candidatRepository);
