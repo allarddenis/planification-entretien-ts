@@ -1,5 +1,4 @@
-import { Op } from "sequelize";
-import Entretien from '../db/models/entretien.model';
+import Entretien from './entretien.model';
 
 interface SearchCondition {
   [key: string]: any;

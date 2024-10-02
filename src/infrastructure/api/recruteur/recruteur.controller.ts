@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import Recruteur from '../../db/models/recruteur.model';
+import Recruteur from '../../db/recruteur/recruteur.model';
 import recruteurService from '../../../domain/recruteur.service';
 
 export default class RecruteurController {

@@ -1,6 +1,6 @@
 import { app } from '../../src/infrastructure/api/app';
-import candidatRepository from '../../src/infrastructure/repositories/candidat.repository';
-import Candidat from '../../src/infrastructure/db/models/candidat.model';
+import candidatRepository from '../../src/infrastructure/db/candidat/candidat.repository';
+import Candidat from '../../src/infrastructure/db/candidat/candidat.model';
 
 const request = require('supertest');
 

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import Candidat from '../../db/models/candidat.model';
+import Candidat from '../../db/candidat/candidat.model';
 import candidatService from '../../../domain/candidat.service';
 
 export default class CandidatController {

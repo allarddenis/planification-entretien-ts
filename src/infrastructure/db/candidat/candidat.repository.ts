@@ -1,5 +1,5 @@
 import { Op } from "sequelize";
-import Candidat from '../db/models/candidat.model';
+import Candidat from './candidat.model';
 
 interface SearchCondition {
   [key: string]: any;

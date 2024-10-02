@@ -1,8 +1,8 @@
 import { Sequelize } from "sequelize-typescript";
 import { config, dialect } from "./db.config";
-import Candidat from "./models/candidat.model";
-import Recruteur from './models/recruteur.model';
-import Entretien from './models/entretien.model';
+import Candidat from "./candidat/candidat.model";
+import Recruteur from './recruteur/recruteur.model';
+import Entretien from './entretien/entretien.model';
 
 class Database {
   public sequelize: Sequelize | undefined;

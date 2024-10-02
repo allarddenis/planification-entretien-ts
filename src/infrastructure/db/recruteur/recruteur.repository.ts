@@ -1,5 +1,5 @@
 import { Op } from "sequelize";
-import Recruteur from '../db/models/recruteur.model';
+import Recruteur from './recruteur.model';
 
 interface SearchCondition {
   [key: string]: any;

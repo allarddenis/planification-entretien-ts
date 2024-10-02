@@ -1,8 +1,8 @@
-import recruteurRepository from '../infrastructure/repositories/recruteur.repository';
-import candidatRepository from '../infrastructure/repositories/candidat.repository';
+import recruteurRepository from '../infrastructure/db/recruteur/recruteur.repository';
+import candidatRepository from '../infrastructure/db/candidat/candidat.repository';
 import { Request, Response } from 'express';
-import Entretien from '../infrastructure/db/models/entretien.model';
-import entretienRepository from '../infrastructure/repositories/entretien.repository';
+import Entretien from '../infrastructure/db/entretien/entretien.model';
+import entretienRepository from '../infrastructure/db/entretien/entretien.repository';
 import notificationService from './notification.service';
 
 class EntretienService {
