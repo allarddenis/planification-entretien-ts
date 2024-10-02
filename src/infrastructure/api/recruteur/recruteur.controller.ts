@@ -1,6 +1,6 @@
 import recruteurService from '@domain/recruteur/recruteur.service';
-import { SaveResponse } from "@domain/candidat/candidat.interface";
 import Recruteur from "@domain/recruteur/recruteur.model";
+import { SaveResponse } from "@domain/candidat";
 import { Request, Response } from "express";
 
 export default class RecruteurController {

@@ -1,7 +1,5 @@
-import candidatRepository from '@infrastructure/db/candidat/candidat.sql.repository';
-import { SaveRequest, SaveResponse } from './candidat.interface';
-import { ICandidatRepository } from './candidat.repo.interface';
-import Candidat from './candidat.model';
+import { sqlCandidatRepository } from '@infrastructure/db/candidat';
+import { ICandidatRepository, Candidat } from '@domain/candidat';
 
 class CandidatService {
 
@@ -9,22 +7,6 @@ class CandidatService {
 
     constructor(repo: ICandidatRepository) {
         this.candidatRepository = repo;
-    }
-
-    async save(req: SaveRequest) : Promise<[SaveResponse, Candidat | null]> {
-        let isEmailValid: boolean;
-
-        const regexp: RegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-
-        isEmailValid = regexp.test(req.email);
-
-        if (!req.langage || !req.xp || req.xp < 0 || !req.email || !isEmailValid) {
-            return [SaveResponse.EMPTY_CONTENT, null];
-        }
-
-        const savedCandidat = await this.candidatRepository.save(req);
-
-        return [SaveResponse.OK, savedCandidat];
     }
 
     async retrieveAll(searchParams: { email?: string }): Promise<Candidat[]> {
@@ -48,4 +30,4 @@ class CandidatService {
     }
 }
 
-export default new CandidatService(candidatRepository);
+export default new CandidatService(sqlCandidatRepository);

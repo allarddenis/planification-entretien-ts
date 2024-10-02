@@ -1,11 +1,10 @@
-export interface SaveRequest {
-    id: number;
-    langage: string;
-    email: string;
-    xp: number;
-}
+import { Candidat } from './candidat.port';
 
-export enum SaveResponse {
-    OK,
-    EMPTY_CONTENT
+export interface ICandidatRepository {
+    save(candidat: Candidat): Promise<Candidat>;
+    retrieveAll(searchParams: {email?: string}): Promise<Candidat[]>;
+    retrieveById(candidatId: number): Promise<Candidat | null>;
+    update(candidat: Candidat): Promise<number>;
+    delete(candidatId: number): Promise<number>;
+    deleteAll(): Promise<number>;
 }

@@ -1,10 +1,10 @@
-import candidatRepository from '@infrastructure/db/candidat/candidat.sql.repository';
 import recruteurRepository from '@infrastructure/db/recruteur/recruteur.repository';
 import entretienRepository from '@infrastructure/db/entretien/entretien.repository';
-import { ICandidatRepository } from '../candidat/candidat.repo.interface';
 import { CreationResult, CreationRequest } from './entretien.interface';
+import { sqlCandidatRepository } from '@infrastructure/db/candidat';
 import { IEntretienRepository } from './entretien.repo.interface';
 import notificationService from '.././notification.service';
+import { ICandidatRepository } from '@domain/candidat';
 import Entretien from './entretien.model';
 
 class EntretienService {
@@ -54,4 +54,4 @@ class EntretienService {
     }
 }
 
-export default new EntretienService(entretienRepository, candidatRepository);
+export default new EntretienService(entretienRepository, sqlCandidatRepository);

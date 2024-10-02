@@ -1,6 +1,6 @@
 import { Op } from "sequelize";
 import CandidatSQL from './candidat.sql';
-import Candidat from "@domain/candidat/candidat.model";
+import { Candidat } from "@domain/candidat";
 
 interface SearchCondition {
   [key: string]: any;
@@ -80,4 +80,4 @@ class SqlCandidatRepository {
   }
 }
 
-export default new SqlCandidatRepository();
+export const sqlCandidatRepository = new SqlCandidatRepository();

@@ -1,12 +1,12 @@
-import { SaveResponse } from "@domain/candidat/candidat.interface";
 import candidatService from '@domain/candidat/candidat.service';
-import Candidat from "@domain/candidat/candidat.model";
+import { createEntretienUseCase } from '@use_case/entretien'
+import { SaveResponse, Candidat } from "@domain/candidat";
 import { Request, Response } from "express";
 
 export default class CandidatController {
   async create(req: Request, res: Response) {
     try {
-      const [result, body] = await candidatService.save(req.body);
+      const [result, body] = await createEntretienUseCase.execute(req.body);
 
       switch(result) {
         case SaveResponse.OK:

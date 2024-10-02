@@ -1,6 +1,6 @@
 import recruteurRepository from '@infrastructure/db/recruteur/recruteur.repository';
-import { SaveRequest, SaveResponse } from '../candidat/candidat.interface';
 import { IRecruteurRepository } from './recruteur.repo.interface';
+import { SaveRequest, SaveResponse } from '@domain/candidat';
 import Recruteur from './recruteur.model';
 
 class RecruteurService {
