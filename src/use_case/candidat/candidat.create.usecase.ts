@@ -3,7 +3,7 @@ import registry from "@registry/registry";
 
 export class CreateCandidatUseCase {
 
-    private candidatRepository = registry.candidatRepository;
+    private candidatRepository = registry.repositories.candidatRepository;
 
     async execute(req: SaveRequest) : Promise<[SaveResponse, Candidat | null]> {
         let isEmailValid: boolean;

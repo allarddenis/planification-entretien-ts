@@ -3,9 +3,9 @@ import registry from "@registry/registry";
 
 export class UpdateCandidatUseCase {
 
-    private candidatRepository = registry.candidatRepository;
+    private candidatRepository = registry.repositories.candidatRepository;
 
-    async execute(candidat: Candidat): Promise<number> {
-        return await this.candidatRepository.update(candidat);
+    async execute(recruteur: Candidat): Promise<number> {
+        return await this.candidatRepository.update(recruteur);
     }
 }

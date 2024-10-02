@@ -1,22 +1,22 @@
-import recruteurRepository from '@infrastructure/db/recruteur/recruteur.repository';
 import EntretienSQL from '@infrastructure/db/entretien/entretien.sql';
 import RecruteurSQL from '@infrastructure/db/recruteur/recruteur.sql';
 import CandidatSQL from '@infrastructure/db/candidat/candidat.sql';
 import notificationService from '@domain/notification.service';
 import { app } from '@infrastructure/api/app';
-import { sqlCandidatRepository } from '@infrastructure/db/candidat';
 import registry from '@registry/registry';
 
 const request = require('supertest');
 
-const entretienRepository = registry.entretienRepository;
+const candidatRepository = registry.repositories.candidatRepository;
+const entretienRepository = registry.repositories.entretienRepository;
+const recruteurRepository = registry.repositories.recruteurRepository;
 
 describe('Entretien', () => {
     const envoyerEmailAuCandidatMock = jest.spyOn(notificationService, 'envoyerEmailDeConfirmationAuCandidat');
     const envoyerEmailAuRecruteurMock = jest.spyOn(notificationService, 'envoyerEmailDeConfirmationAuRecruteur');
 
     afterAll(async () => {
-        await sqlCandidatRepository.deleteAll();
+        await candidatRepository.deleteAll();
         await recruteurRepository.deleteAll();
         await entretienRepository.deleteAll();
     });

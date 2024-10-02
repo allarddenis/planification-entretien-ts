@@ -6,7 +6,7 @@ import registry from '@registry/registry';
 export default class EntretienController {
 
   private createEntretienUseCase = new CreateEntretienUseCase();
-  private entretienRepository = registry.entretienRepository;
+  private entretienRepository = registry.repositories.entretienRepository;
 
   async create(req: Request, res: Response) {
     try {

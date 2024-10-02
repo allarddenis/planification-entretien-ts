@@ -1,4 +1,4 @@
-import Recruteur from './recruteur.model';
+import { Recruteur } from './recruteur.interface';
 
 export interface IRecruteurRepository {
   save(recruteur: Recruteur): Promise<Recruteur>;

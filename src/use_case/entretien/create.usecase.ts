@@ -1,18 +1,18 @@
 import { CreationRequest, CreationResult, Entretien, IEntretienRepository } from "@domain/entretien";
-import recruteurRepository from "@infrastructure/db/recruteur/recruteur.repository";
 import notificationService from "@domain/notification.service";
 import registry from "@registry/registry";
 
 export class CreateEntretienUseCase {
-    private entretienRepository = registry.entretienRepository;
-    private candidatRepository = registry.candidatRepository;
+    private entretienRepository = registry.repositories.entretienRepository;
+    private candidatRepository = registry.repositories.candidatRepository;
+    private recruteurRepository = registry.repositories.recruteurRepository;
 
     async execute(req: CreationRequest) : Promise<[CreationResult, Entretien | null]> {
         if (req.disponibiliteRecruteur != req.horaire) {
             return [CreationResult.HORAIRE, null];
         }
 
-        const recruteur = await recruteurRepository.retrieveById(req.recruteurId);
+        const recruteur = await this.recruteurRepository.retrieveById(req.recruteurId);
         const candidat = await this.candidatRepository.retrieveById(req.candidatId);
 
         if (!candidat) {

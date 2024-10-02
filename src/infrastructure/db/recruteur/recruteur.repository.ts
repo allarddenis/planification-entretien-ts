@@ -1,4 +1,4 @@
-import Recruteur from "@domain/recruteur/recruteur.model";
+import { Recruteur } from "@domain/recruteur";
 import RecruteurSQL from './recruteur.sql';
 import { Op } from "sequelize";
 
@@ -77,4 +77,4 @@ class RecruteurRepository {
   }
 }
 
-export default new RecruteurRepository();
+export const sqlRecruteurRepository = new RecruteurRepository();

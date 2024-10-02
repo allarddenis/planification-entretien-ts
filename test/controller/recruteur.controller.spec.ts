@@ -1,7 +1,9 @@
-import recruteurRepository from '@infrastructure/db/recruteur/recruteur.repository';
 import RecruteurSQL from '@infrastructure/db/recruteur/recruteur.sql';
 import { app } from '@infrastructure/api/app';
+import registry from '@registry/registry';
 const request = require('supertest');
+
+const recruteurRepository = registry.repositories.recruteurRepository;
 
 describe("Recruteur", () => {
 

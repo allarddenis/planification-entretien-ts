@@ -3,7 +3,7 @@ import registry from "@registry/registry";
 
 export class FindCandidatUseCase {
 
-    private candidatRepository = registry.candidatRepository;
+    private candidatRepository = registry.repositories.candidatRepository;
 
     async execute(candidatId: number): Promise<Candidat | null> {
         return await this.candidatRepository.retrieveById(candidatId);

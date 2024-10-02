@@ -3,7 +3,7 @@ import registry from "@registry/registry";
 
 export class ListCandidatesUseCase {
 
-    private candidatRepository = registry.candidatRepository;
+    private candidatRepository = registry.repositories.candidatRepository;
 
     async execute(searchParams: { email?: string }): Promise<Candidat[]> {
         return await this.candidatRepository.retrieveAll(searchParams);
