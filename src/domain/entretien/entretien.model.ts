@@ -1,3 +1,10 @@
+export interface CreationRequest {
+    disponibiliteRecruteur: string;
+    horaire: string;
+    recruteurId: number;
+    candidatId: number;
+}
+
 export enum CreationResult {
     HORAIRE,
     CANDIDAT_PAS_TROUVE,
@@ -5,11 +12,4 @@ export enum CreationResult {
     PAS_COMPATIBLE,
     CANDIDAT_TROP_JEUNE,
     OK,
-}
-
-export interface CreationRequest {
-    disponibiliteRecruteur: string;
-    horaire: string;
-    recruteurId: number;
-    candidatId: number;
 }

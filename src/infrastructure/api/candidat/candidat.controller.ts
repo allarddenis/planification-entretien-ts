@@ -1,13 +1,23 @@
 import { Request, Response } from "express";
 import Candidat from '../../db/candidat/candidat.model';
-import candidatService from '../../../domain/candidat.service';
+import candidatService from '../../../domain/candidat/candidat.service';
+import { SaveResponse } from "../../../domain/candidat/candidat.model";
 
 export default class CandidatController {
   async create(req: Request, res: Response) {
     try {
-      const savedCandidat = await candidatService.save(req, res);
+      const [result, body] = await candidatService.save(req.body);
 
-      res.status(201).send(savedCandidat);
+      switch(result) {
+        case SaveResponse.OK:
+          res.status(201).send(body);
+          break;
+        case SaveResponse.EMPTY_CONTENT:
+          res.status(400).send({
+            message: 'Content can not be empty!'
+          });
+          break;
+      }
     } catch (err) {
       res.status(500).send({
         message: "Some error occurred while creating candidats."

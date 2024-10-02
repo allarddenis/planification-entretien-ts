@@ -1,7 +1,8 @@
-import Candidat from '../infrastructure/db/candidat/candidat.model';
-import { ICandidatRepository } from '../infrastructure/db';
-import candidatRepository from '../infrastructure/db/candidat/candidat.sql.repository';
+import Candidat from '../../infrastructure/db/candidat/candidat.model';
+import { ICandidatRepository } from '../../infrastructure/db';
+import candidatRepository from '../../infrastructure/db/candidat/candidat.sql.repository';
 import { Request, Response } from 'express';
+import { SaveRequest, SaveResponse } from './candidat.model';
 
 class CandidatService {
 
@@ -11,25 +12,20 @@ class CandidatService {
         this.candidatRepository = repo;
     }
 
-    async save(req: Request, res: Response) {
+    async save(req: SaveRequest) : Promise<[SaveResponse, Candidat | null]> {
         let isEmailValid: boolean;
 
         const regexp: RegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 
-        isEmailValid = regexp.test(req.body.email);
+        isEmailValid = regexp.test(req.email);
 
-        if (!req.body.langage || !req.body.xp || req.body.xp < 0 || !req.body.email || !isEmailValid) {
-            res.status(400).send({
-                message: 'Content can not be empty!'
-            });
-            return;
+        if (!req.langage || !req.xp || req.xp < 0 || !req.email || !isEmailValid) {
+            return [SaveResponse.EMPTY_CONTENT, null];
         }
 
-        const candidat: Candidat = req.body;
+        const savedCandidat = await this.candidatRepository.save(req);
 
-        const savedCandidat = await this.candidatRepository.save(candidat);
-
-        res.status(201).send(savedCandidat);
+        return [SaveResponse.OK, savedCandidat];
     }
 
     async retrieveAll(searchParams: { email?: string }): Promise<Candidat[]> {
