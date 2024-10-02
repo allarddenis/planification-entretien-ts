@@ -1,7 +1,7 @@
-import Candidat from './candidat.model';
-import { ICandidatRepository } from './candidat.repo.interface';
-import candidatRepository from '../../infrastructure/db/candidat/candidat.sql.repository';
+import candidatRepository from '@infrastructure/db/candidat/candidat.sql.repository';
 import { SaveRequest, SaveResponse } from './candidat.interface';
+import { ICandidatRepository } from './candidat.repo.interface';
+import Candidat from './candidat.model';
 
 class CandidatService {
 

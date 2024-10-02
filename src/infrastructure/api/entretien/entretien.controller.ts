@@ -1,8 +1,8 @@
-import { Request, Response } from 'express';
-import entretienService from '../../../domain/entretien/entretien.service';
 import entretienRepository from '../../db/entretien/entretien.repository';
-import { CreationResult } from '../../../domain/entretien/entretien.interface';
-import Entretien from '../../../domain/entretien/entretien.model';
+import { CreationResult } from '@domain/entretien/entretien.interface';
+import entretienService from '@domain/entretien/entretien.service';
+import Entretien from '@domain/entretien/entretien.model';
+import { Request, Response } from 'express';
 
 export default class EntretienController {
   async create(req: Request, res: Response) {

@@ -1,11 +1,11 @@
-import recruteurRepository from '../../infrastructure/db/recruteur/recruteur.repository';
-import candidatRepository from '../../infrastructure/db/candidat/candidat.sql.repository';
-import Entretien from './entretien.model';
-import entretienRepository from '../../infrastructure/db/entretien/entretien.repository';
-import notificationService from '.././notification.service';
-import { IEntretienRepository } from './entretien.repo.interface';
-import { CreationResult, CreationRequest } from './entretien.interface';
+import candidatRepository from '@infrastructure/db/candidat/candidat.sql.repository';
+import recruteurRepository from '@infrastructure/db/recruteur/recruteur.repository';
+import entretienRepository from '@infrastructure/db/entretien/entretien.repository';
 import { ICandidatRepository } from '../candidat/candidat.repo.interface';
+import { CreationResult, CreationRequest } from './entretien.interface';
+import { IEntretienRepository } from './entretien.repo.interface';
+import notificationService from '.././notification.service';
+import Entretien from './entretien.model';
 
 class EntretienService {
 

@@ -1,11 +1,11 @@
-import { app } from '../../src/infrastructure/api/app';
-import entretienRepository from '../../src/infrastructure/db/entretien/entretien.repository';
-import EntretienSQL from '../../src/infrastructure/db/entretien/entretien.sql';
-import RecruteurSQL from '../../src/infrastructure/db/recruteur/recruteur.sql';
-import candidatRepository from '../../src/infrastructure/db/candidat/candidat.sql.repository';
-import recruteurRepository from '../../src/infrastructure/db/recruteur/recruteur.repository';
-import notificationService from '../../src/domain/notification.service';
-import CandidatSQL from '../../src/infrastructure/db/candidat/candidat.sql';
+import candidatRepository from '@infrastructure/db/candidat/candidat.sql.repository';
+import entretienRepository from '@infrastructure/db/entretien/entretien.repository';
+import recruteurRepository from '@infrastructure/db/recruteur/recruteur.repository';
+import EntretienSQL from '@infrastructure/db/entretien/entretien.sql';
+import RecruteurSQL from '@infrastructure/db/recruteur/recruteur.sql';
+import CandidatSQL from '@infrastructure/db/candidat/candidat.sql';
+import notificationService from '@domain/notification.service';
+import { app } from '@infrastructure/api/app';
 
 const request = require('supertest');
 

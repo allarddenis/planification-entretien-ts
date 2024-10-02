@@ -1,7 +1,7 @@
-import { app } from '../../src/infrastructure/api/app';
+import recruteurRepository from '@infrastructure/db/recruteur/recruteur.repository';
+import RecruteurSQL from '@infrastructure/db/recruteur/recruteur.sql';
+import { app } from '@infrastructure/api/app';
 const request = require('supertest');
-import recruteurRepository from '../../src/infrastructure/db/recruteur/recruteur.repository';
-import RecruteurSQL from '../../src/infrastructure/db/recruteur/recruteur.sql';
 
 describe("Recruteur", () => {
 
