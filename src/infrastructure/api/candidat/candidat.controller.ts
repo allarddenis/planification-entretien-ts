@@ -1,12 +1,19 @@
 import candidatService from '@domain/candidat/candidat.service';
-import { createEntretienUseCase } from '@use_case/entretien'
+import { CreateEntretienUseCase } from '@use_case/entretien'
 import { SaveResponse, Candidat } from "@domain/candidat";
 import { Request, Response } from "express";
 
 export default class CandidatController {
+
+  private createEntretienUseCase: CreateEntretienUseCase;
+
+  constructor() {
+    this.createEntretienUseCase = new CreateEntretienUseCase();
+  }
+
   async create(req: Request, res: Response) {
     try {
-      const [result, body] = await createEntretienUseCase.execute(req.body);
+      const [result, body] = await this.createEntretienUseCase.execute(req.body);
 
       switch(result) {
         case SaveResponse.OK:

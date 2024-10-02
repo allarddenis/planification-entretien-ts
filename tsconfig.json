@@ -18,7 +18,8 @@
     "paths": {
       "@infrastructure/*": [ "./src/infrastructure/*" ],
       "@domain/*": [ "./src/domain/*" ],
-      "@use_case/*": [ "./src/use_case/*" ]
+      "@use_case/*": [ "./src/use_case/*" ],
+      "@registry/*": [ "./src/registry/*" ]
     },
     "target": "es2016",
     "experimentalDecorators": true,

@@ -1,11 +1,11 @@
 import { ICandidatRepository, SaveRequest, SaveResponse, Candidat } from "@domain/candidat";
-import { sqlCandidatRepository } from "@infrastructure/db/candidat";
+import registry from "@registry/registry";
 
-class CreateEntretienUseCase {
+export class CreateEntretienUseCase {
     private candidatRepository: ICandidatRepository;
 
-    constructor(repo: ICandidatRepository) {
-        this.candidatRepository = repo;
+    constructor() {
+        this.candidatRepository = registry.getCandidatRepository();
     }
 
     async execute(req: SaveRequest) : Promise<[SaveResponse, Candidat | null]> {
@@ -24,5 +24,3 @@ class CreateEntretienUseCase {
         return [SaveResponse.OK, savedCandidat];
     }
 }
-
-export const createEntretienUseCase = new CreateEntretienUseCase(sqlCandidatRepository);
