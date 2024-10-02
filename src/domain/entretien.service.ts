@@ -4,8 +4,17 @@ import { Request, Response } from 'express';
 import Entretien from '../infrastructure/db/entretien/entretien.model';
 import entretienRepository from '../infrastructure/db/entretien/entretien.repository';
 import notificationService from './notification.service';
+import { ICandidatRepository, IEntretienRepository } from '../infrastructure/db';
 
 class EntretienService {
+
+    private entretienRepository: IEntretienRepository;
+    private candidatRepository: ICandidatRepository;
+
+    constructor(repoEntretien: IEntretienRepository, repoCandidat: ICandidatRepository) {
+        this.entretienRepository = repoEntretien;
+        this.candidatRepository = repoCandidat;
+    }
 
     async create(req: Request, res: Response) {
         if (req.body.disponibiliteRecruteur != req.body.horaire) {
@@ -16,7 +25,7 @@ class EntretienService {
         }
 
         const recruteur = await recruteurRepository.retrieveById(req.body.recruteurId);
-        const candidat = await candidatRepository.retrieveById(req.body.candidatId);
+        const candidat = await this.candidatRepository.retrieveById(req.body.candidatId);
 
         if (!candidat) {
             res.status(404).send({
@@ -48,7 +57,7 @@ class EntretienService {
 
         const entretien: Entretien = req.body;
 
-        const savedEntretien = await entretienRepository.save(entretien);
+        const savedEntretien = await this.entretienRepository.save(entretien);
 
         await notificationService.envoyerEmailDeConfirmationAuCandidat(candidat?.email || '');
         await notificationService.envoyerEmailDeConfirmationAuRecruteur(recruteur?.email || '');
@@ -57,8 +66,8 @@ class EntretienService {
     }
 
     async retrieveAll(): Promise<Entretien[]> {
-        return await entretienRepository.retrieveAll();
+        return await this.entretienRepository.retrieveAll();
     }
 }
 
-export default new EntretienService();
+export default new EntretienService(entretienRepository, candidatRepository);

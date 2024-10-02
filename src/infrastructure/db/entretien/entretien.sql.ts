@@ -1,9 +1,9 @@
 import { Model, Table, Column, DataType } from "sequelize-typescript";
 
 @Table({
-  tableName: "candidats",
+  tableName: "entretiens",
 })
-export default class CandidatSQL extends Model {
+export default class Entretien extends Model {
   @Column({
     type: DataType.INTEGER,
     primaryKey: true,
@@ -13,20 +13,20 @@ export default class CandidatSQL extends Model {
   id?: number;
 
   @Column({
-    type: DataType.STRING(255),
-    field: "langage"
+    type: DataType.STRING,
+    field: "horaire"
   })
-  langage?: string;
-
-  @Column({
-    type: DataType.STRING(255),
-    field: "email"
-  })
-  email?: string;
+  horaire?: string;
 
   @Column({
     type: DataType.INTEGER,
-    field: "xp"
+    field: "candidatId"
   })
-  xp?: number;
+  candidatId?: number;
+
+  @Column({
+    type: DataType.INTEGER,
+    field: "recruteurId"
+  })
+  recruteurId?: number;
 }

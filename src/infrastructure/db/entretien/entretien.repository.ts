@@ -1,4 +1,5 @@
 import Entretien from './entretien.model';
+import EntretienSQL from './entretien.sql';
 
 interface SearchCondition {
   [key: string]: any;
@@ -7,7 +8,7 @@ interface SearchCondition {
 class EntretienRepository {
   async save(entretien: Entretien): Promise<Entretien> {
     try {
-      return await Entretien.create({
+      return await EntretienSQL.create({
         candidatId: entretien.candidatId,
         recruteurId: entretien.recruteurId,
         horaire: entretien.horaire
@@ -19,7 +20,7 @@ class EntretienRepository {
 
   async retrieveAll(): Promise<Entretien[]> {
     try {
-      return await Entretien.findAll();
+      return await EntretienSQL.findAll();
     } catch (error) {
       throw new Error("Failed to retrieve Entretiens!");
     }
@@ -27,7 +28,7 @@ class EntretienRepository {
 
   async retrieveById(entretienId: number): Promise<Entretien | null> {
     try {
-      return await Entretien.findByPk(entretienId);
+      return await EntretienSQL.findByPk(entretienId);
     } catch (error) {
       throw new Error("Failed to retrieve Entretiens!");
     }
@@ -37,7 +38,7 @@ class EntretienRepository {
     const { id,  horaire } = entretien;
 
     try {
-      const affectedRows = await Entretien.update(
+      const affectedRows = await EntretienSQL.update(
         { horaire: horaire },
         { where: { id: id } }
       );
@@ -50,7 +51,7 @@ class EntretienRepository {
 
   async delete(entretienId: number): Promise<number> {
     try {
-      const affectedRows = await Entretien.destroy({ where: { id: entretienId } });
+      const affectedRows = await EntretienSQL.destroy({ where: { id: entretienId } });
 
       return affectedRows;
     } catch (error) {
@@ -60,7 +61,7 @@ class EntretienRepository {
 
   async deleteAll(): Promise<number> {
     try {
-      return Entretien.destroy({
+      return EntretienSQL.destroy({
         where: {},
         truncate: false
       });

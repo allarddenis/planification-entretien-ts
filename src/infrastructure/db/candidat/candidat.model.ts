@@ -1,4 +1,4 @@
-export default class Candidat {
+export default interface Candidat {
   id?: number;
   langage?: string;
   email?: string;

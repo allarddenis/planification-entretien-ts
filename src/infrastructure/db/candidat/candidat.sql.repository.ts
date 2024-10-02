@@ -1,5 +1,5 @@
 import { Op } from "sequelize";
-import SQLCandidat from './candidat.sql';
+import CandidatSQL from './candidat.sql';
 import Candidat from './candidat.model';
 
 interface SearchCondition {
@@ -9,7 +9,7 @@ interface SearchCondition {
 class SqlCandidatRepository {
   async save(candidat: Candidat): Promise<Candidat> {
     try {
-      return await SQLCandidat.create({
+      return await CandidatSQL.create({
         title: candidat.langage,
         description: candidat.email,
         published: candidat.xp
@@ -26,7 +26,7 @@ class SqlCandidatRepository {
       if (searchParams?.email)
         condition.email = { [Op.iLike]: `%${searchParams.email}%` };
 
-      return await SQLCandidat.findAll({ where: condition });
+      return await CandidatSQL.findAll({ where: condition });
     } catch (error) {
       throw new Error("Failed to retrieve Candidats!");
     }
@@ -36,7 +36,7 @@ class SqlCandidatRepository {
     try {
       let condition: SearchCondition = {};
       condition.id = { [Op.eq]: candidatId};
-      const candidat = await SQLCandidat.findOne({ where: condition});
+      const candidat = await CandidatSQL.findOne({ where: condition});
       return candidat;
     } catch (error) {
       throw new Error("Failed to retrieve Candidats!");
@@ -47,7 +47,7 @@ class SqlCandidatRepository {
     const { id, langage, email, xp } = candidat;
 
     try {
-      const affectedRows = await SQLCandidat.update(
+      const affectedRows = await CandidatSQL.update(
         { langage: langage, email: email, xp: xp },
         { where: { id: id } }
       );
@@ -60,7 +60,7 @@ class SqlCandidatRepository {
 
   async delete(candidatId: number): Promise<number> {
     try {
-      const affectedRows = await SQLCandidat.destroy({ where: { id: candidatId } });
+      const affectedRows = await CandidatSQL.destroy({ where: { id: candidatId } });
 
       return affectedRows;
     } catch (error) {
@@ -70,7 +70,7 @@ class SqlCandidatRepository {
 
   async deleteAll(): Promise<number> {
     try {
-      return SQLCandidat.destroy({
+      return CandidatSQL.destroy({
         where: {},
         truncate: false
       });

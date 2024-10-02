@@ -1,11 +1,11 @@
 import { app } from '../../src/infrastructure/api/app';
 import entretienRepository from '../../src/infrastructure/db/entretien/entretien.repository';
-import Entretien from '../../src/infrastructure/db/entretien/entretien.model';
+import EntretienSQL from '../../src/infrastructure/db/entretien/entretien.sql';
 import Recruteur from '../../src/infrastructure/db/recruteur/recruteur.model';
 import candidatRepository from '../../src/infrastructure/db/candidat/candidat.sql.repository';
 import recruteurRepository from '../../src/infrastructure/db/recruteur/recruteur.repository';
 import notificationService from '../../src/domain/notification.service';
-import SQLCandidat from '../../src/infrastructure/db/candidat/candidat.sql';
+import CandidatSQL from '../../src/infrastructure/db/candidat/candidat.sql';
 
 const request = require('supertest');
 
@@ -26,7 +26,7 @@ describe('Entretien', () => {
     });
 
     it('Un entretien est crée quand toutes ses informations sont complètes', async () => {
-        const candidat = await SQLCandidat.create({langage: 'java', email: 'candidat-valide@mail.com', xp: 5});
+        const candidat = await CandidatSQL.create({langage: 'java', email: 'candidat-valide@mail.com', xp: 5});
         const localCandidatId = candidat.id;
 
         const recruteur = await Recruteur.create({langage: 'java', email: 'recruteur-valide@mail.com', xp: 5});
@@ -56,7 +56,7 @@ describe('Entretien', () => {
 
     it('Recruteur ne peut pas tester le candidat car les dates ne correspondent pas', async () => {
         // given
-        const candidat = await SQLCandidat.create({langage: 'java', email: 'candidat@mail.com', xp: 5});
+        const candidat = await CandidatSQL.create({langage: 'java', email: 'candidat@mail.com', xp: 5});
         const candidatId = candidat.id;
 
         const recruteur = await Recruteur.create({
@@ -90,7 +90,7 @@ describe('Entretien', () => {
 
     it('Recruteur ne peut pas tester le candidat car les techno ne correspondent pas', async () => {
         // given
-        const candidat = await SQLCandidat.create({langage: 'java', email: 'candidat@mail.com', xp: 5});
+        const candidat = await CandidatSQL.create({langage: 'java', email: 'candidat@mail.com', xp: 5});
         const candidatId = candidat.id;
 
         const autreLangageRecruteur = await Recruteur.create({
@@ -124,7 +124,7 @@ describe('Entretien', () => {
 
     it('Recruteur ne peut pas tester le candidat car le recruteur est moins expérimenté', async () => {
         // given
-        const candidat = await SQLCandidat.create({langage: 'java', email: 'candidat@mail.com', xp: 5});
+        const candidat = await CandidatSQL.create({langage: 'java', email: 'candidat@mail.com', xp: 5});
         const candidatId = candidat.id;
 
         const tropJeunerecruteur = await Recruteur.create({
@@ -185,7 +185,7 @@ describe('Entretien', () => {
 
     it('Impossible de créer un entretien quand le recruteur n existe pas', async () => {
         // given
-        const candidat = await SQLCandidat.create({langage: 'java', email: 'candidat@mail.com', xp: 5});
+        const candidat = await CandidatSQL.create({langage: 'java', email: 'candidat@mail.com', xp: 5});
         const candidatId = candidat.id;
 
         // when
@@ -212,13 +212,13 @@ describe('Entretien', () => {
 
     it("Trouve un entretien existant", async () => {
         // given
-        const candidat = await SQLCandidat.create({langage: 'java', email: 'candidat@mail.com', xp: 5});
+        const candidat = await CandidatSQL.create({langage: 'java', email: 'candidat@mail.com', xp: 5});
         const candidatId = candidat.id;
 
         const recruteur = await Recruteur.create({langage: 'java', email: 'recruteur@mail.com', xp: 5});
         const recruteurId = recruteur.id;
 
-        const {id} = await Entretien.create({
+        const {id} = await EntretienSQL.create({
             candidatId: candidatId,
             recruteurId: recruteurId,
             horaire: '2024-05-31T18:00:00.000Z'
@@ -246,13 +246,13 @@ describe('Entretien', () => {
 
     it("Supprime un entretien existant", async () => {
         // given
-        const candidat = await SQLCandidat.create({langage: 'java', email: 'candidat@mail.com', xp: 5});
+        const candidat = await CandidatSQL.create({langage: 'java', email: 'candidat@mail.com', xp: 5});
         const candidatId = candidat.id;
 
         const recruteur = await Recruteur.create({langage: 'java', email: 'recruteur@mail.com', xp: 5});
         const recruteurId = recruteur.id;
 
-        const {id} = await Entretien.create({
+        const {id} = await EntretienSQL.create({
             candidatId: candidatId,
             recruteurId: recruteurId,
             horaire: '2024-05-31T18:00:00.000Z'
@@ -280,12 +280,12 @@ describe('Entretien', () => {
 
     it("Met à jour un entretien existant", async () => {
         // given
-        const candidat = await SQLCandidat.create({langage: 'java', email: 'candidat@mail.com', xp: 5});
+        const candidat = await CandidatSQL.create({langage: 'java', email: 'candidat@mail.com', xp: 5});
         const candidatId = candidat.id;
 
         const recruteur = await Recruteur.create({langage: 'java', email: 'recruteur@mail.com', xp: 5});
         const recruteurId = recruteur.id;
-        const {id} = await Entretien.create({
+        const {id} = await EntretienSQL.create({
             candidatId: candidatId,
             recruteurId: recruteurId,
             horaire: '2024-05-31T18:00:00.000Z'
@@ -319,13 +319,13 @@ describe('Entretien', () => {
 
     it("Retourne tous les entretiens", async () => {
         // given
-        const candidat = await SQLCandidat.create({langage: 'java', email: 'candidat@mail.com', xp: 5});
+        const candidat = await CandidatSQL.create({langage: 'java', email: 'candidat@mail.com', xp: 5});
         const candidatId = candidat.id;
 
         const recruteur = await Recruteur.create({langage: 'java', email: 'recruteur@mail.com', xp: 5});
         const recruteurId = recruteur.id;
 
-        await Entretien.create({
+        await EntretienSQL.create({
             candidatId: candidatId,
             recruteurId: recruteurId,
             horaire: '2024-05-31T18:00:00.000Z'
@@ -344,13 +344,13 @@ describe('Entretien', () => {
 
     it("Supprime tous les entretiens", async () => {
         // given
-        const candidat = await SQLCandidat.create({langage: 'java', email: 'candidat@mail.com', xp: 5});
+        const candidat = await CandidatSQL.create({langage: 'java', email: 'candidat@mail.com', xp: 5});
         const candidatId = candidat.id;
 
         const recruteur = await Recruteur.create({langage: 'java', email: 'recruteur@mail.com', xp: 5});
         const recruteurId = recruteur.id;
 
-        await Entretien.create({
+        await EntretienSQL.create({
             candidatId: candidatId,
             recruteurId: recruteurId,
             horaire: '2024-05-31T18:00:00.000Z'
