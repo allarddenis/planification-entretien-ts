@@ -1,12 +1,50 @@
 import { Request, Response } from 'express';
 import Entretien from '../../db/entretien/entretien.model';
-import entretienService from '../../../domain/entretien.service';
+import entretienService from '../../../domain/entretien/entretien.service';
 import entretienRepository from '../../db/entretien/entretien.repository';
+import { CreationRequest, CreationResult } from '../../../domain/entretien/entretien.model';
 
 export default class EntretienController {
   async create(req: Request, res: Response) {
     try {
-      return entretienService.create(req, res);
+      const [result, body] = await entretienService.create(req.body as CreationRequest);
+
+      switch (result) {
+        case CreationResult.OK:
+          res.status(201).send(body);
+          break;
+        case CreationResult.HORAIRE:
+          res.status(400).send({
+            message: "Pas les mêmes horaires!"
+          });
+          break;
+        case CreationResult.CANDIDAT_PAS_TROUVE:
+          res.status(404).send({
+            message: `Cannot create Entretien with candidat id=${req.body.candidatId}.`
+          });
+          break;
+        case CreationResult.RECRUTEUR_PAS_TROUVE:
+          res.status(404).send({
+            message: `Cannot create Entretien with recruteur id=${req.body.recruteurId}.`
+          });
+          break;
+        case CreationResult.PAS_COMPATIBLE:
+          res.status(400).send({
+            message: "Pas la même techno"
+          });
+          break;
+        case CreationResult.CANDIDAT_TROP_JEUNE:
+          res.status(400).send({
+            message: "Recruteur trop jeune"
+          });
+          break;
+        default:
+          res.status(500).send({
+            message: "Some error occurred while creating entretiens."
+          });
+          break;
+      }
+
     } catch (err) {
       res.status(500).send({
         message: "Some error occurred while creating entretiens."
