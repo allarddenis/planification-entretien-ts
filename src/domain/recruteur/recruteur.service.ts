@@ -1,7 +1,8 @@
-import { IRecruteurRepository } from '../infrastructure/db';
-import Recruteur from '../infrastructure/db/recruteur/recruteur.model';
-import recruteurRepository from '../infrastructure/db/recruteur/recruteur.repository';
+import { IRecruteurRepository } from '../../infrastructure/db';
+import Recruteur from '../../infrastructure/db/recruteur/recruteur.model';
+import recruteurRepository from '../../infrastructure/db/recruteur/recruteur.repository';
 import { Request, Response } from 'express';
+import { SaveRequest, SaveResponse } from '../candidat/candidat.model';
 
 class RecruteurService {
     private recruteurRepository: IRecruteurRepository;
@@ -10,25 +11,20 @@ class RecruteurService {
         this.recruteurRepository = repo;
     }
 
-    async save(req: Request, res: Response) {
+    async save(req: SaveRequest) : Promise<[SaveResponse, Recruteur | null]> {
         let isEmailValid: boolean;
 
         const regexp: RegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 
-        isEmailValid = regexp.test(req.body.email);
+        isEmailValid = regexp.test(req.email);
 
-        if (!req.body.langage || !req.body.xp || req.body.xp < 0 || !req.body.email || !isEmailValid) {
-            res.status(400).send({
-                message: 'Content can not be empty!'
-            });
-            return;
+        if (!req.langage || !req.xp || req.xp < 0 || !req.email || !isEmailValid) {
+            return [SaveResponse.EMPTY_CONTENT, null];
         }
 
-        const recruteur: Recruteur = req.body;
+        const savedRecruteur = await this.recruteurRepository.save(req);
 
-        const savedRecruteur = await this.recruteurRepository.save(recruteur);
-
-        res.status(201).send(savedRecruteur);
+        return [SaveResponse.OK, savedRecruteur];
     }
 
     async retrieveAll(searchParams: { email?: string }): Promise<Recruteur[]> {

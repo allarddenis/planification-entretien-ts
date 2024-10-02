@@ -1,13 +1,23 @@
 import { Request, Response } from "express";
 import Recruteur from '../../db/recruteur/recruteur.model';
-import recruteurService from '../../../domain/recruteur.service';
+import recruteurService from '../../../domain/recruteur/recruteur.service';
+import { SaveResponse } from "../../../domain/candidat/candidat.model";
 
 export default class RecruteurController {
   async create(req: Request, res: Response) {
     try {
-      const savedRecruteur = await recruteurService.save(req, res);
+      const [result, body] = await recruteurService.save(req.body);
 
-      res.status(201).send(savedRecruteur);
+      switch(result) {
+        case SaveResponse.OK:
+          res.status(201).send(body);
+          break;
+        case SaveResponse.EMPTY_CONTENT:
+          res.status(400).send({
+            message: 'Content can not be empty!'
+          });
+          break;
+      }
     } catch (err) {
       res.status(500).send({
         message: "Some error occurred while creating recruteurs."
