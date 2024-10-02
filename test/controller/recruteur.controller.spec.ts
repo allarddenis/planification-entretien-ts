@@ -1,7 +1,7 @@
 import { app } from '../../src/infrastructure/api/app';
 const request = require('supertest');
 import recruteurRepository from '../../src/infrastructure/db/recruteur/recruteur.repository';
-import Recruteur from '../../src/infrastructure/db/recruteur/recruteur.model';
+import RecruteurSQL from '../../src/infrastructure/db/recruteur/recruteur.sql';
 
 describe("Recruteur", () => {
 
@@ -102,7 +102,7 @@ describe("Recruteur", () => {
 
     it("Trouve un recruteur existant", async () => {
         // given
-        const {id} = await Recruteur.create({langage: "java", email: "recruteur-existant@mail.com", xp: 5});
+        const {id} = await RecruteurSQL.create({langage: "java", email: "recruteur-existant@mail.com", xp: 5});
 
         // when
         const response = await request(app)
@@ -129,7 +129,7 @@ describe("Recruteur", () => {
 
     it("Supprime un recruteur existant", async () => {
         // given
-        const {id} = await Recruteur.create({langage: "java", email: "recruteur@mail.com", xp: 5});
+        const {id} = await RecruteurSQL.create({langage: "java", email: "recruteur@mail.com", xp: 5});
 
         // when
         const response = await request(app)
@@ -153,7 +153,7 @@ describe("Recruteur", () => {
 
     it("Met à jour un recruteur existant", async () => {
         // given
-        const {id} = await Recruteur.create({langage: "java", email: "recruteur@mail.com", xp: 5});
+        const {id} = await RecruteurSQL.create({langage: "java", email: "recruteur@mail.com", xp: 5});
 
         // when
         const response = await request(app)
@@ -183,7 +183,7 @@ describe("Recruteur", () => {
 
     it("Retourne tous les recruteurs", async () => {
         // given
-        await Recruteur.create({langage: "java", email: "recruteur@mail.com", xp: 5});
+        await RecruteurSQL.create({langage: "java", email: "recruteur@mail.com", xp: 5});
 
         // when
         const response = await request(app)
@@ -198,7 +198,7 @@ describe("Recruteur", () => {
 
     it("Supprime tous les recruteurs", async () => {
         // given
-        await Recruteur.create({langage: "java", email: "recruteur-a-supprimer@mail.com", xp: 5});
+        await RecruteurSQL.create({langage: "java", email: "recruteur-a-supprimer@mail.com", xp: 5});
 
         // when
         const response = await request(app)

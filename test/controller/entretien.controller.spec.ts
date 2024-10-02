@@ -1,7 +1,7 @@
 import { app } from '../../src/infrastructure/api/app';
 import entretienRepository from '../../src/infrastructure/db/entretien/entretien.repository';
 import EntretienSQL from '../../src/infrastructure/db/entretien/entretien.sql';
-import Recruteur from '../../src/infrastructure/db/recruteur/recruteur.model';
+import RecruteurSQL from '../../src/infrastructure/db/recruteur/recruteur.sql';
 import candidatRepository from '../../src/infrastructure/db/candidat/candidat.sql.repository';
 import recruteurRepository from '../../src/infrastructure/db/recruteur/recruteur.repository';
 import notificationService from '../../src/domain/notification.service';
@@ -29,7 +29,7 @@ describe('Entretien', () => {
         const candidat = await CandidatSQL.create({langage: 'java', email: 'candidat-valide@mail.com', xp: 5});
         const localCandidatId = candidat.id;
 
-        const recruteur = await Recruteur.create({langage: 'java', email: 'recruteur-valide@mail.com', xp: 5});
+        const recruteur = await RecruteurSQL.create({langage: 'java', email: 'recruteur-valide@mail.com', xp: 5});
         const localRecruteurId = recruteur.id;
 
         // when
@@ -59,7 +59,7 @@ describe('Entretien', () => {
         const candidat = await CandidatSQL.create({langage: 'java', email: 'candidat@mail.com', xp: 5});
         const candidatId = candidat.id;
 
-        const recruteur = await Recruteur.create({
+        const recruteur = await RecruteurSQL.create({
             langage: 'C#',
             email: 'autreLangageRecruteur@mail.com',
             xp: 5
@@ -93,7 +93,7 @@ describe('Entretien', () => {
         const candidat = await CandidatSQL.create({langage: 'java', email: 'candidat@mail.com', xp: 5});
         const candidatId = candidat.id;
 
-        const autreLangageRecruteur = await Recruteur.create({
+        const autreLangageRecruteur = await RecruteurSQL.create({
             langage: 'C#',
             email: 'autreLangageRecruteur@mail.com',
             xp: 5
@@ -127,7 +127,7 @@ describe('Entretien', () => {
         const candidat = await CandidatSQL.create({langage: 'java', email: 'candidat@mail.com', xp: 5});
         const candidatId = candidat.id;
 
-        const tropJeunerecruteur = await Recruteur.create({
+        const tropJeunerecruteur = await RecruteurSQL.create({
             langage: 'java',
             email: 'tropJeuneRecruteurId@mail.com',
             xp: 1
@@ -158,7 +158,7 @@ describe('Entretien', () => {
 
     it('Impossible de créer un entretien quand le candidat n existe pas', async () => {
         // given
-        const recruteur = await Recruteur.create({langage: 'java', email: 'recruteur@mail.com', xp: 5});
+        const recruteur = await RecruteurSQL.create({langage: 'java', email: 'recruteur@mail.com', xp: 5});
         const recruteurId = recruteur.id;
 
         // when
@@ -215,7 +215,7 @@ describe('Entretien', () => {
         const candidat = await CandidatSQL.create({langage: 'java', email: 'candidat@mail.com', xp: 5});
         const candidatId = candidat.id;
 
-        const recruteur = await Recruteur.create({langage: 'java', email: 'recruteur@mail.com', xp: 5});
+        const recruteur = await RecruteurSQL.create({langage: 'java', email: 'recruteur@mail.com', xp: 5});
         const recruteurId = recruteur.id;
 
         const {id} = await EntretienSQL.create({
@@ -249,7 +249,7 @@ describe('Entretien', () => {
         const candidat = await CandidatSQL.create({langage: 'java', email: 'candidat@mail.com', xp: 5});
         const candidatId = candidat.id;
 
-        const recruteur = await Recruteur.create({langage: 'java', email: 'recruteur@mail.com', xp: 5});
+        const recruteur = await RecruteurSQL.create({langage: 'java', email: 'recruteur@mail.com', xp: 5});
         const recruteurId = recruteur.id;
 
         const {id} = await EntretienSQL.create({
@@ -283,7 +283,7 @@ describe('Entretien', () => {
         const candidat = await CandidatSQL.create({langage: 'java', email: 'candidat@mail.com', xp: 5});
         const candidatId = candidat.id;
 
-        const recruteur = await Recruteur.create({langage: 'java', email: 'recruteur@mail.com', xp: 5});
+        const recruteur = await RecruteurSQL.create({langage: 'java', email: 'recruteur@mail.com', xp: 5});
         const recruteurId = recruteur.id;
         const {id} = await EntretienSQL.create({
             candidatId: candidatId,
@@ -322,7 +322,7 @@ describe('Entretien', () => {
         const candidat = await CandidatSQL.create({langage: 'java', email: 'candidat@mail.com', xp: 5});
         const candidatId = candidat.id;
 
-        const recruteur = await Recruteur.create({langage: 'java', email: 'recruteur@mail.com', xp: 5});
+        const recruteur = await RecruteurSQL.create({langage: 'java', email: 'recruteur@mail.com', xp: 5});
         const recruteurId = recruteur.id;
 
         await EntretienSQL.create({
@@ -347,7 +347,7 @@ describe('Entretien', () => {
         const candidat = await CandidatSQL.create({langage: 'java', email: 'candidat@mail.com', xp: 5});
         const candidatId = candidat.id;
 
-        const recruteur = await Recruteur.create({langage: 'java', email: 'recruteur@mail.com', xp: 5});
+        const recruteur = await RecruteurSQL.create({langage: 'java', email: 'recruteur@mail.com', xp: 5});
         const recruteurId = recruteur.id;
 
         await EntretienSQL.create({

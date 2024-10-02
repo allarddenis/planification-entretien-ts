@@ -1,5 +1,6 @@
 import { Op } from "sequelize";
 import Recruteur from './recruteur.model';
+import RecruteurSQL from './recruteur.sql';
 
 interface SearchCondition {
   [key: string]: any;
@@ -8,7 +9,7 @@ interface SearchCondition {
 class RecruteurRepository {
   async save(recruteur: Recruteur): Promise<Recruteur> {
     try {
-      return await Recruteur.create({
+      return await RecruteurSQL.create({
         title: recruteur.langage,
         description: recruteur.email,
         published: recruteur.xp
@@ -25,7 +26,7 @@ class RecruteurRepository {
       if (searchParams?.email)
         condition.email = { [Op.iLike]: `%${searchParams.email}%` };
 
-      return await Recruteur.findAll({ where: condition });
+      return await RecruteurSQL.findAll({ where: condition });
     } catch (error) {
       throw new Error("Failed to retrieve Recruteurs!");
     }
@@ -33,7 +34,7 @@ class RecruteurRepository {
 
   async retrieveById(recruteurId: number): Promise<Recruteur | null> {
     try {
-      return await Recruteur.findByPk(recruteurId);
+      return await RecruteurSQL.findByPk(recruteurId);
     } catch (error) {
       throw new Error("Failed to retrieve Recruteurs!");
     }
@@ -43,7 +44,7 @@ class RecruteurRepository {
     const { id, langage, email, xp } = recruteur;
 
     try {
-      const affectedRows = await Recruteur.update(
+      const affectedRows = await RecruteurSQL.update(
         { langage: langage, email: email, xp: xp },
         { where: { id: id } }
       );
@@ -56,7 +57,7 @@ class RecruteurRepository {
 
   async delete(recruteurId: number): Promise<number> {
     try {
-      const affectedRows = await Recruteur.destroy({ where: { id: recruteurId } });
+      const affectedRows = await RecruteurSQL.destroy({ where: { id: recruteurId } });
 
       return affectedRows;
     } catch (error) {
@@ -66,7 +67,7 @@ class RecruteurRepository {
 
   async deleteAll(): Promise<number> {
     try {
-      return Recruteur.destroy({
+      return RecruteurSQL.destroy({
         where: {},
         truncate: false
       });

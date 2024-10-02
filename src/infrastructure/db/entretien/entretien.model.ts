@@ -1,4 +1,4 @@
-export default class Entretien {
+export default interface Entretien {
   id?: number;
   horaire?: string;
   candidatId?: number;
