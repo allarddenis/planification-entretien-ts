@@ -1,8 +1,7 @@
 import { Request, Response } from 'express';
-import Entretien from '../models/entretien.model';
-import entretienService from '../services/entretien.service';
-import entretienRepository from '../repositories/entretien.repository';
-import notificationService from '../services/notification.service';
+import Entretien from '../../db/models/entretien.model';
+import entretienService from '../../../domain/entretien.service';
+import entretienRepository from '../../repositories/entretien.repository';
 
 export default class EntretienController {
   async create(req: Request, res: Response) {
