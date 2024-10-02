@@ -1,10 +1,11 @@
 import recruteurRepository from '../../infrastructure/db/recruteur/recruteur.repository';
 import candidatRepository from '../../infrastructure/db/candidat/candidat.sql.repository';
-import Entretien from '../../infrastructure/db/entretien/entretien.model';
+import Entretien from './entretien.model';
 import entretienRepository from '../../infrastructure/db/entretien/entretien.repository';
 import notificationService from '.././notification.service';
-import { ICandidatRepository, IEntretienRepository } from '../../infrastructure/db';
-import { CreationResult, CreationRequest } from './entretien.model';
+import { IEntretienRepository } from './entretien.repo.interface';
+import { CreationResult, CreationRequest } from './entretien.interface';
+import { ICandidatRepository } from '../candidat/candidat.repo.interface';
 
 class EntretienService {
 
@@ -39,7 +40,6 @@ class EntretienService {
         if (recruteur?.xp && candidat?.xp && recruteur.xp < candidat.xp) {
             return [CreationResult.CANDIDAT_TROP_JEUNE, null];
         }
-
 
         const savedEntretien = await this.entretienRepository.save(req);
 

@@ -1,4 +1,4 @@
-import Entretien from './entretien.model';
+import Entretien from '../../../domain/entretien/entretien.model';
 import EntretienSQL from './entretien.sql';
 
 interface SearchCondition {

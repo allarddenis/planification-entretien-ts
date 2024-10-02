@@ -1,8 +1,7 @@
-import { IRecruteurRepository } from '../../infrastructure/db';
-import Recruteur from '../../infrastructure/db/recruteur/recruteur.model';
+import { IRecruteurRepository } from './recruteur.repo.interface';
+import Recruteur from './recruteur.model';
 import recruteurRepository from '../../infrastructure/db/recruteur/recruteur.repository';
-import { Request, Response } from 'express';
-import { SaveRequest, SaveResponse } from '../candidat/candidat.model';
+import { SaveRequest, SaveResponse } from '../candidat/candidat.interface';
 
 class RecruteurService {
     private recruteurRepository: IRecruteurRepository;

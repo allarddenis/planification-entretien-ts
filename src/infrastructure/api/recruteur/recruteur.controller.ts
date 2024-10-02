@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import Recruteur from '../../db/recruteur/recruteur.model';
 import recruteurService from '../../../domain/recruteur/recruteur.service';
-import { SaveResponse } from "../../../domain/candidat/candidat.model";
+import { SaveResponse } from "../../../domain/candidat/candidat.interface";
+import Recruteur from "../../../domain/recruteur/recruteur.model";
 
 export default class RecruteurController {
   async create(req: Request, res: Response) {

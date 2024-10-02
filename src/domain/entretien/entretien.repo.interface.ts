@@ -1,4 +1,4 @@
-import Entretien from './entretien.model';
+import Entretien from "./entretien.model";
 
 export interface IEntretienRepository {
   save(entretien: Entretien): Promise<Entretien>;

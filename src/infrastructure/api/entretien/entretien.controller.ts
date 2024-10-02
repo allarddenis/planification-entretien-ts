@@ -1,13 +1,13 @@
 import { Request, Response } from 'express';
-import Entretien from '../../db/entretien/entretien.model';
 import entretienService from '../../../domain/entretien/entretien.service';
 import entretienRepository from '../../db/entretien/entretien.repository';
-import { CreationRequest, CreationResult } from '../../../domain/entretien/entretien.model';
+import { CreationResult } from '../../../domain/entretien/entretien.interface';
+import Entretien from '../../../domain/entretien/entretien.model';
 
 export default class EntretienController {
   async create(req: Request, res: Response) {
     try {
-      const [result, body] = await entretienService.create(req.body as CreationRequest);
+      const [result, body] = await entretienService.create(req.body);
 
       switch (result) {
         case CreationResult.OK:

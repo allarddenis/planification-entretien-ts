@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import Candidat from '../../db/candidat/candidat.model';
 import candidatService from '../../../domain/candidat/candidat.service';
-import { SaveResponse } from "../../../domain/candidat/candidat.model";
+import { SaveResponse } from "../../../domain/candidat/candidat.interface";
+import Candidat from "../../../domain/candidat/candidat.model";
 
 export default class CandidatController {
   async create(req: Request, res: Response) {
