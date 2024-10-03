@@ -5,14 +5,33 @@ export interface SaveCandidatRequest {
     xp: number;
 }
 
-export enum SaveCandidatResponse {
+export enum SaveCandidatResult {
     OK,
     EMPTY_CONTENT
 }
 
-export interface Candidat {
+export interface ICandidat {
     id?: number;
     langage?: string;
     email?: string;
     xp?: number;
+}
+
+export class Candidat {
+
+    constructor(public id?: number, public langage?: string, public email?: string, public xp?: number) {}
+
+    isValid(): SaveCandidatResult {
+        let isEmailValid: boolean;
+
+        const regexp: RegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+
+        isEmailValid = regexp.test(this.email || '');
+
+        if (!this.langage || !this.xp || this.xp < 0 || !this.email || !isEmailValid) {
+            return SaveCandidatResult.EMPTY_CONTENT;
+        }
+
+        return SaveCandidatResult.OK;
+    }
 }

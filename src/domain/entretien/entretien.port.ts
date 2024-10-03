@@ -1,4 +1,4 @@
-import { Candidat } from "@domain/candidat";
+import { ICandidat } from "@domain/candidat";
 import { Recruteur } from "@domain/recruteur";
 
 export enum PlanificationResult {
@@ -31,7 +31,7 @@ export class Entretien {
         return entretien;
     }
 
-    static planifiable(candidat: Candidat | null, recruteur: Recruteur | null): PlanificationResult {
+    static planifiable(candidat: ICandidat | null, recruteur: Recruteur | null): PlanificationResult {
         if (!candidat) {
             return PlanificationResult.CANDIDAT_PAS_TROUVE;
         }

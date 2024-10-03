@@ -1,4 +1,4 @@
-import { SaveCandidatResponse, Candidat } from "@domain/candidat";
+import { SaveCandidatResult, Candidat } from "@domain/candidat";
 import { createCandidatUseCase, deleteAllCandidatesUseCase, deleteCandidatUseCase, findCandidatUseCase, listCandidatesUseCase, updateCandidatUseCase } from "@registry/registry";
 import { Request, Response } from "express";
 
@@ -8,10 +8,10 @@ export default class CandidatController {
       const [result, body] = await createCandidatUseCase.execute(req.body);
 
       switch(result) {
-        case SaveCandidatResponse.OK:
+        case SaveCandidatResult.OK:
           res.status(201).send(body);
           break;
-        case SaveCandidatResponse.EMPTY_CONTENT:
+        case SaveCandidatResult.EMPTY_CONTENT:
           res.status(400).send({
             message: 'Content can not be empty!'
           });

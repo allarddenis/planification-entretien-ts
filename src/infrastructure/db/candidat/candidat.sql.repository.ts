@@ -1,13 +1,13 @@
 import { Op } from "sequelize";
 import CandidatSQL from './candidat.sql';
-import { Candidat } from "@domain/candidat";
+import { ICandidat } from "@domain/candidat";
 
 interface SearchCondition {
   [key: string]: any;
 }
 
 export class SqlCandidatRepository {
-  async save(candidat: Candidat): Promise<Candidat> {
+  async save(candidat: ICandidat): Promise<ICandidat> {
     try {
       return await CandidatSQL.create({
         title: candidat.langage,
@@ -19,7 +19,7 @@ export class SqlCandidatRepository {
     }
   }
 
-  async retrieveAll(searchParams: {email?: string}): Promise<Candidat[]> {
+  async retrieveAll(searchParams: {email?: string}): Promise<ICandidat[]> {
     try {
       let condition: SearchCondition = {};
 
@@ -32,7 +32,7 @@ export class SqlCandidatRepository {
     }
   }
 
-  async retrieveById(candidatId: number): Promise<Candidat | null> {
+  async retrieveById(candidatId: number): Promise<ICandidat | null> {
     try {
       let condition: SearchCondition = {};
       condition.id = { [Op.eq]: candidatId};
@@ -43,7 +43,7 @@ export class SqlCandidatRepository {
     }
   }
 
-  async update(candidat: Candidat): Promise<number> {
+  async update(candidat: ICandidat): Promise<number> {
     const { id, langage, email, xp } = candidat;
 
     try {

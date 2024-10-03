@@ -1,21 +1,19 @@
-import { Candidat, ICandidatRepository, SaveCandidatRequest, SaveCandidatResponse } from "@domain/candidat";
+import { ICandidat, Candidat, ICandidatRepository, SaveCandidatRequest, SaveCandidatResult } from "@domain/candidat";
 export class CreateCandidatUseCase {
 
     constructor(private candidatRepository: ICandidatRepository) {}
 
-    async execute(req: SaveCandidatRequest) : Promise<[SaveCandidatResponse, Candidat | null]> {
-        let isEmailValid: boolean;
+    async execute(req: SaveCandidatRequest) : Promise<[SaveCandidatResult, ICandidat | null]> {
+        const candidat = new Candidat(req.id, req.langage, req.email, req.xp);
 
-        const regexp: RegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+        const result = candidat.isValid();
 
-        isEmailValid = regexp.test(req.email);
-
-        if (!req.langage || !req.xp || req.xp < 0 || !req.email || !isEmailValid) {
-            return [SaveCandidatResponse.EMPTY_CONTENT, null];
+        if (result !== SaveCandidatResult.OK) {
+            return [result, null];
         }
 
-        const savedCandidat = await this.candidatRepository.save(req);
+        const savedCandidat = await this.candidatRepository.save(candidat);
 
-        return [SaveCandidatResponse.OK, savedCandidat];
+        return [SaveCandidatResult.OK, savedCandidat];
     }
 }
