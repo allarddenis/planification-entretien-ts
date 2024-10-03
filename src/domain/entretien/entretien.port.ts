@@ -17,6 +17,13 @@ export enum CreationEntretienResult {
     OK,
 }
 
+export class IEntretien {
+    id?: number;
+    horaire?: string;
+    candidatId?: number;
+    recruteurId?: number;
+}
+
 export class Entretien {
     id?: number;
     horaire?: string;
@@ -50,5 +57,4 @@ export class Entretien {
 
         return CreationEntretienResult.OK;
     }
-  }
-  
+}

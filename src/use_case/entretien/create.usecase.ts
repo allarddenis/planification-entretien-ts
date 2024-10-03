@@ -1,4 +1,4 @@
-import { CreationEntretienRequest, CreationEntretienResult, Entretien } from "@domain/entretien";
+import { CreationEntretienRequest, CreationEntretienResult, IEntretien, Entretien } from "@domain/entretien";
 import registry from "@registry/registry";
 
 export class CreateEntretienUseCase {
@@ -7,7 +7,7 @@ export class CreateEntretienUseCase {
     private recruteurRepository = registry.repositories.recruteurRepository;
     private notificationService = registry.services.notificationService;
 
-    async execute(req: CreationEntretienRequest) : Promise<[CreationEntretienResult, Entretien | null]> {
+    async execute(req: CreationEntretienRequest) : Promise<[CreationEntretienResult, IEntretien | null]> {
         if (req.disponibiliteRecruteur != req.horaire) {
             return [CreationEntretienResult.HORAIRE, null];
         }
