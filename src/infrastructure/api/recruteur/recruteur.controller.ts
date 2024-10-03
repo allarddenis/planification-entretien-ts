@@ -1,5 +1,5 @@
 import { Recruteur } from "@domain/recruteur";
-import { SaveResponse } from "@domain/candidat";
+import { SaveRecruteurResponse } from "@domain/recruteur";
 import { Request, Response } from "express";
 import { 
   CreateRecruteurUseCase,
@@ -17,10 +17,10 @@ export default class RecruteurController {
       const [result, body] = await CreateRecruteurUseCase.execute(req.body);
 
       switch(result) {
-        case SaveResponse.OK:
+        case SaveRecruteurResponse.OK:
           res.status(201).send(body);
           break;
-        case SaveResponse.EMPTY_CONTENT:
+        case SaveRecruteurResponse.EMPTY_CONTENT:
           res.status(400).send({
             message: 'Content can not be empty!'
           });

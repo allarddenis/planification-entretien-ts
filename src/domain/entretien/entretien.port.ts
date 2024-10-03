@@ -1,11 +1,11 @@
-export interface CreationRequest {
+export interface CreationEntretienRequest {
     disponibiliteRecruteur: string;
     horaire: string;
     recruteurId: number;
     candidatId: number;
 }
 
-export enum CreationResult {
+export enum CreationEntretienResult {
     HORAIRE,
     CANDIDAT_PAS_TROUVE,
     RECRUTEUR_PAS_TROUVE,

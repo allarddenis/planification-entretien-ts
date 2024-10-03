@@ -1,5 +1,5 @@
 import { CreateEntretienUseCase } from '@use_case/entretien';
-import { CreationResult } from '@domain/entretien';
+import { CreationEntretienResult } from '@domain/entretien';
 import { Request, Response } from 'express';
 import registry from '@registry/registry';
 
@@ -13,30 +13,30 @@ export default class EntretienController {
       const [result, body] = await this.createEntretienUseCase.execute(req.body);
 
       switch (result) {
-        case CreationResult.OK:
+        case CreationEntretienResult.OK:
           res.status(201).send(body);
           break;
-        case CreationResult.HORAIRE:
+        case CreationEntretienResult.HORAIRE:
           res.status(400).send({
             message: "Pas les mêmes horaires!"
           });
           break;
-        case CreationResult.CANDIDAT_PAS_TROUVE:
+        case CreationEntretienResult.CANDIDAT_PAS_TROUVE:
           res.status(404).send({
             message: `Cannot create Entretien with candidat id=${req.body.candidatId}.`
           });
           break;
-        case CreationResult.RECRUTEUR_PAS_TROUVE:
+        case CreationEntretienResult.RECRUTEUR_PAS_TROUVE:
           res.status(404).send({
             message: `Cannot create Entretien with recruteur id=${req.body.recruteurId}.`
           });
           break;
-        case CreationResult.PAS_COMPATIBLE:
+        case CreationEntretienResult.PAS_COMPATIBLE:
           res.status(400).send({
             message: "Pas la même techno"
           });
           break;
-        case CreationResult.CANDIDAT_TROP_JEUNE:
+        case CreationEntretienResult.CANDIDAT_TROP_JEUNE:
           res.status(400).send({
             message: "Recruteur trop jeune"
           });

@@ -1,11 +1,11 @@
-export interface SaveRequest {
+export interface SaveCandidatRequest {
     id: number;
     langage: string;
     email: string;
     xp: number;
 }
 
-export enum SaveResponse {
+export enum SaveCandidatResponse {
     OK,
     EMPTY_CONTENT
 }
