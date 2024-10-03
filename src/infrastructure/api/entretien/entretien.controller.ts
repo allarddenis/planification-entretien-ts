@@ -1,11 +1,11 @@
-import { CreateEntretienUseCase } from '@use_case/entretien';
-import { CreationEntretienResult } from '@domain/entretien';
+import { PlanificationResult } from '@domain/entretien';
 import { Request, Response } from 'express';
-import registry from '@registry/registry';
+import registry from "@registry/registry";
+import { createEntretienUseCase } from '@use_case/entretien';
 
 export default class EntretienController {
 
-  private createEntretienUseCase = new CreateEntretienUseCase();
+  private createEntretienUseCase = createEntretienUseCase;
   private entretienRepository = registry.repositories.entretienRepository;
 
   async create(req: Request, res: Response) {
@@ -13,30 +13,30 @@ export default class EntretienController {
       const [result, body] = await this.createEntretienUseCase.execute(req.body);
 
       switch (result) {
-        case CreationEntretienResult.OK:
+        case PlanificationResult.OK:
           res.status(201).send(body);
           break;
-        case CreationEntretienResult.HORAIRE:
+        case PlanificationResult.HORAIRE:
           res.status(400).send({
             message: "Pas les mêmes horaires!"
           });
           break;
-        case CreationEntretienResult.CANDIDAT_PAS_TROUVE:
+        case PlanificationResult.CANDIDAT_PAS_TROUVE:
           res.status(404).send({
             message: `Cannot create Entretien with candidat id=${req.body.candidatId}.`
           });
           break;
-        case CreationEntretienResult.RECRUTEUR_PAS_TROUVE:
+        case PlanificationResult.RECRUTEUR_PAS_TROUVE:
           res.status(404).send({
             message: `Cannot create Entretien with recruteur id=${req.body.recruteurId}.`
           });
           break;
-        case CreationEntretienResult.PAS_COMPATIBLE:
+        case PlanificationResult.PAS_COMPATIBLE:
           res.status(400).send({
             message: "Pas la même techno"
           });
           break;
-        case CreationEntretienResult.CANDIDAT_TROP_JEUNE:
+        case PlanificationResult.CANDIDAT_TROP_JEUNE:
           res.status(400).send({
             message: "Recruteur trop jeune"
           });

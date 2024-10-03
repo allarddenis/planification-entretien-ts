@@ -1,14 +1,7 @@
 import { Candidat } from "@domain/candidat";
 import { Recruteur } from "@domain/recruteur";
 
-export interface CreationEntretienRequest {
-    disponibiliteRecruteur: string;
-    horaire: string;
-    recruteurId: number;
-    candidatId: number;
-}
-
-export enum CreationEntretienResult {
+export enum PlanificationResult {
     HORAIRE,
     CANDIDAT_PAS_TROUVE,
     RECRUTEUR_PAS_TROUVE,
@@ -38,23 +31,23 @@ export class Entretien {
         return entretien;
     }
 
-    static planifiable(candidat: Candidat | null, recruteur: Recruteur | null): CreationEntretienResult {
+    static planifiable(candidat: Candidat | null, recruteur: Recruteur | null): PlanificationResult {
         if (!candidat) {
-            return CreationEntretienResult.CANDIDAT_PAS_TROUVE;
+            return PlanificationResult.CANDIDAT_PAS_TROUVE;
         }
 
         if (!recruteur) {
-            return CreationEntretienResult.RECRUTEUR_PAS_TROUVE;
+            return PlanificationResult.RECRUTEUR_PAS_TROUVE;
         }
 
         if (recruteur.langage && candidat.langage && recruteur.langage != candidat.langage) {
-            return CreationEntretienResult.PAS_COMPATIBLE;
+            return PlanificationResult.PAS_COMPATIBLE;
         }
 
         if (recruteur.xp && candidat.xp && recruteur.xp < candidat.xp) {
-            return CreationEntretienResult.CANDIDAT_TROP_JEUNE;
+            return PlanificationResult.CANDIDAT_TROP_JEUNE;
         }
 
-        return CreationEntretienResult.OK;
+        return PlanificationResult.OK;
     }
 }

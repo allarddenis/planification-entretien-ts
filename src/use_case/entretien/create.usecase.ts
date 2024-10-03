@@ -1,22 +1,23 @@
-import { CreationEntretienRequest, CreationEntretienResult, IEntretien, Entretien } from "@domain/entretien";
+import { ICreationEntretienHttpRequest } from "@infrastructure/api/entretien/entretien.inputs";
+import { PlanificationResult, IEntretien, Entretien } from "@domain/entretien";
 import registry from "@registry/registry";
 
-export class CreateEntretienUseCase {
+class CreateEntretienUseCase {
     private entretienRepository = registry.repositories.entretienRepository;
     private candidatRepository = registry.repositories.candidatRepository;
     private recruteurRepository = registry.repositories.recruteurRepository;
     private notificationService = registry.services.notificationService;
 
-    async execute(req: CreationEntretienRequest) : Promise<[CreationEntretienResult, IEntretien | null]> {
+    async execute(req: ICreationEntretienHttpRequest) : Promise<[PlanificationResult, IEntretien | null]> {
         if (req.disponibiliteRecruteur != req.horaire) {
-            return [CreationEntretienResult.HORAIRE, null];
+            return [PlanificationResult.HORAIRE, null];
         }
 
         const recruteur = await this.recruteurRepository.retrieveById(req.recruteurId);
         const candidat = await this.candidatRepository.retrieveById(req.candidatId);
 
         const planifiable = Entretien.planifiable(candidat, recruteur);
-        if (planifiable != CreationEntretienResult.OK) {
+        if (planifiable != PlanificationResult.OK) {
             return [planifiable, null];
         }
         
@@ -25,6 +26,8 @@ export class CreateEntretienUseCase {
         await this.notificationService.envoyerEmailDeConfirmationAuCandidat(candidat?.email || '');
         await this.notificationService.envoyerEmailDeConfirmationAuRecruteur(recruteur?.email || '');
 
-        return [CreationEntretienResult.OK, savedEntretien];
+        return [PlanificationResult.OK, savedEntretien];
     }
 }
+
+export const createEntretienUseCase = new CreateEntretienUseCase();
