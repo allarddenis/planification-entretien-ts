@@ -1,11 +1,11 @@
 import { CreationEntretienRequest, CreationEntretienResult, Entretien, IEntretienRepository } from "@domain/entretien";
-import notificationService from "@domain/notification.service";
 import registry from "@registry/registry";
 
 export class CreateEntretienUseCase {
     private entretienRepository = registry.repositories.entretienRepository;
     private candidatRepository = registry.repositories.candidatRepository;
     private recruteurRepository = registry.repositories.recruteurRepository;
+    private notificationService = registry.services.notificationService;
 
     async execute(req: CreationEntretienRequest) : Promise<[CreationEntretienResult, Entretien | null]> {
         if (req.disponibiliteRecruteur != req.horaire) {
@@ -33,8 +33,8 @@ export class CreateEntretienUseCase {
 
         const savedEntretien = await this.entretienRepository.save(req);
 
-        await notificationService.envoyerEmailDeConfirmationAuCandidat(candidat?.email || '');
-        await notificationService.envoyerEmailDeConfirmationAuRecruteur(recruteur?.email || '');
+        await this.notificationService.envoyerEmailDeConfirmationAuCandidat(candidat?.email || '');
+        await this.notificationService.envoyerEmailDeConfirmationAuRecruteur(recruteur?.email || '');
 
         return [CreationEntretienResult.OK, savedEntretien];
     }

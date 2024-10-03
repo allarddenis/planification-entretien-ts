@@ -9,4 +9,4 @@ class NotificationService {
     }
 }
 
-export default new NotificationService();
+export const notificationService = new NotificationService();

@@ -1,9 +1,9 @@
 import EntretienSQL from '@infrastructure/db/entretien/entretien.sql';
 import RecruteurSQL from '@infrastructure/db/recruteur/recruteur.sql';
 import CandidatSQL from '@infrastructure/db/candidat/candidat.sql';
-import notificationService from '@domain/notification.service';
 import { app } from '@infrastructure/api/app';
 import registry from '@registry/registry';
+import { notificationService } from '@domain/notification/notification.service';
 
 const request = require('supertest');
 

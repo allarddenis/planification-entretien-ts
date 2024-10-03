@@ -5,7 +5,7 @@
   "main": "src/server.ts",
   "scripts": {
     "test": "jest -i --detectOpenHandles",
-    "build": "tsc",
+    "build": "tsc --noEmit",
     "dev": "node ./build/src/server.js",
     "start": "tsc && npm run dev"
   },
