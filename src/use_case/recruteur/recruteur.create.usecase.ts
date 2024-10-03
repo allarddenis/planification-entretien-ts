@@ -1,22 +1,20 @@
-import { IRecruteurRepository, Recruteur, SaveRecruteurRequest, SaveRecruteurResponse } from "@domain/recruteur";
+import { IRecruteurRepository, Recruteur, SaveRecruteurRequest, SaveRecruteurResult } from "@domain/recruteur";
 
 export class CreateRecruteurUseCase {
 
     constructor(private recruteurRepository: IRecruteurRepository) {}
 
-    async execute(req: SaveRecruteurRequest) : Promise<[SaveRecruteurResponse, Recruteur | null]> {
-        let isEmailValid: boolean;
+    async execute(req: SaveRecruteurRequest) : Promise<[SaveRecruteurResult, Recruteur | null]> {
+        const recruteur = new Recruteur(req.id, req.langage, req.email, req.xp);
 
-        const regexp: RegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+        const result = recruteur.isValid();
 
-        isEmailValid = regexp.test(req.email);
-
-        if (!req.langage || !req.xp || req.xp < 0 || !req.email || !isEmailValid) {
-            return [SaveRecruteurResponse.EMPTY_CONTENT, null];
+        if (result !== SaveRecruteurResult.OK) {
+            return [result, null];
         }
 
-        const savedRecruteur = await this.recruteurRepository.save(req);
+        const savedRecruteur = await this.recruteurRepository.save(recruteur);
 
-        return [SaveRecruteurResponse.OK, savedRecruteur];
+        return [SaveRecruteurResult.OK, savedRecruteur];
     }
 }
