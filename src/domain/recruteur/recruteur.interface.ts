@@ -10,6 +10,13 @@ export enum SaveRecruteurResult {
     EMPTY_CONTENT = 'EMPTY_CONTENT'
 }
 
+export interface IRecruteur {
+    id?: number
+    langage?: string
+    email?: string
+    xp?: number
+}
+
 export class Recruteur {
     constructor(public id?: number, public langage?: string, public email?: string, public xp?: number) {}
 

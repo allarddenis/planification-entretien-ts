@@ -1,4 +1,4 @@
-import { Recruteur } from "@domain/recruteur";
+import { IRecruteur } from "@domain/recruteur";
 import RecruteurSQL from './recruteur.sql';
 import { Op } from "sequelize";
 
@@ -7,7 +7,7 @@ interface SearchCondition {
 }
 
 export class SqlRecruteurRepository {
-  async save(recruteur: Recruteur): Promise<Recruteur> {
+  async save(recruteur: IRecruteur): Promise<IRecruteur> {
     try {
       return await RecruteurSQL.create({
         title: recruteur.langage,
@@ -19,7 +19,7 @@ export class SqlRecruteurRepository {
     }
   }
 
-  async retrieveAll(searchParams: {email?: string}): Promise<Recruteur[]> {
+  async retrieveAll(searchParams: {email?: string}): Promise<IRecruteur[]> {
     try {
       let condition: SearchCondition = {};
 
@@ -32,7 +32,7 @@ export class SqlRecruteurRepository {
     }
   }
 
-  async retrieveById(recruteurId: number): Promise<Recruteur | null> {
+  async retrieveById(recruteurId: number): Promise<IRecruteur | null> {
     try {
       return await RecruteurSQL.findByPk(recruteurId);
     } catch (error) {
@@ -40,7 +40,7 @@ export class SqlRecruteurRepository {
     }
   }
 
-  async update(recruteur: Recruteur): Promise<number> {
+  async update(recruteur: IRecruteur): Promise<number> {
     const { id, langage, email, xp } = recruteur;
 
     try {

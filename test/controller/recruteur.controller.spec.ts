@@ -17,7 +17,7 @@ describe("Recruteur", () => {
         // when
         const response = await request(app)
             .post('/api/recruteur')
-            .send({langage: "java", email: "recruteur@mail.com", xp: 5})
+            .send({langage: "java", email: "recruteur@neosoft.fr", xp: 5})
             .set('Content-Type', 'application/json')
             .set('Accept', 'application/json');
 

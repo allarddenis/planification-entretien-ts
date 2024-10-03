@@ -1,10 +1,10 @@
-import { Recruteur } from './recruteur.interface';
+import { IRecruteur } from './recruteur.interface';
 
 export interface IRecruteurRepository {
-  save(recruteur: Recruteur): Promise<Recruteur>;
-  retrieveAll(searchParams: {email?: string}): Promise<Recruteur[]>;
-  retrieveById(recruteurId: number): Promise<Recruteur | null>;
-  update(recruteur: Recruteur): Promise<number>;
+  save(recruteur: IRecruteur): Promise<IRecruteur>;
+  retrieveAll(searchParams: {email?: string}): Promise<IRecruteur[]>;
+  retrieveById(recruteurId: number): Promise<IRecruteur | null>;
+  update(recruteur: IRecruteur): Promise<number>;
   delete(recruteurId: number): Promise<number>;
   deleteAll(): Promise<number>;
 }

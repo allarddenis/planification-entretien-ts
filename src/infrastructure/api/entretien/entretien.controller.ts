@@ -1,5 +1,5 @@
 import { PlanificationResult } from '@domain/entretien';
-import { createEntretienUseCase, entretienRepository } from '@registry/registry';
+import { findEntretienUseCase, createEntretienUseCase, entretienRepository } from '@registry/registry';
 import { Request, Response } from 'express';
 
 export default class EntretienController {
@@ -66,7 +66,7 @@ export default class EntretienController {
     const id: number = parseInt(req.params.id);
 
     try {
-      const entretien = await entretienRepository.retrieveById(id);
+      const entretien = await findEntretienUseCase.execute(id);
 
       if (entretien) res.status(200).send(entretien);
       else

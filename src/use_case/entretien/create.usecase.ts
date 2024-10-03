@@ -4,10 +4,6 @@ import { ICandidatRepository } from "@domain/candidat";
 import { IRecruteurRepository } from "@domain/recruteur";
 import { INotificationService } from "@domain/notification";
 
-interface ICreateEntretienUseCase {
-    execute(req: ICreationEntretienHttpRequest) : Promise<[PlanificationResult, IEntretien | null]>;
-}
-
 export class CreateEntretienUseCase {
     private entretienRepository: IEntretienRepository;
     private candidatRepository: ICandidatRepository;
