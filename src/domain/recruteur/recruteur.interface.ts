@@ -20,7 +20,7 @@ export class Recruteur {
 
         isEmailValid = regexp.test(this.email || '');
 
-        if (!this.langage || !this.xp || this.xp < 0 || !this.email || !isEmailValid || this.email.endsWith('neosoft.fr')) {
+        if (!this.langage || !this.xp || this.xp < 0 || !this.email || !isEmailValid || !this.email.endsWith('neosoft.fr')) {
             return SaveRecruteurResult.EMPTY_CONTENT;
         }
 
