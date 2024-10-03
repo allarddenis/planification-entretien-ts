@@ -1,11 +1,10 @@
-import { Recruteur } from "@domain/recruteur";
-import registry from "@registry/registry";
+import { IRecruteurRepository, Recruteur } from "@domain/recruteur";
 
 export class ListRecrutersUseCase {
+    
+    constructor(private recruteurRepository: IRecruteurRepository) {}
 
-    private static recruteurRepository = registry.repositories.recruteurRepository;
-
-    static async execute(searchParams: { email?: string }): Promise<Recruteur[]> {
+    async execute(searchParams: { email?: string }): Promise<Recruteur[]> {
         return await this.recruteurRepository.retrieveAll(searchParams);
     }
 }

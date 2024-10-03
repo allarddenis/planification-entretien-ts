@@ -1,26 +1,11 @@
-import { 
-  CreateCandidatUseCase,
-  ListCandidatesUseCase,
-  FindCandidatUseCase,
-  UpdateCandidatUseCase,
-  DeleteCandidatUseCase,
-  DeleteAllCandidatesUseCase
-} from "@use_case/candidat";
 import { SaveCandidatResponse, Candidat } from "@domain/candidat";
+import { createCandidatUseCase, deleteAllCandidatesUseCase, deleteCandidatUseCase, findCandidatUseCase, listCandidatesUseCase, updateCandidatUseCase } from "@registry/registry";
 import { Request, Response } from "express";
 
 export default class CandidatController {
-
-  private createCandidat = new CreateCandidatUseCase();
-  private listCandidatesUseCase = new ListCandidatesUseCase();
-  private findCandidatUseCase = new FindCandidatUseCase();
-  private updateCandidatUseCase = new UpdateCandidatUseCase();
-  private deleteCandidatUseCase = new DeleteCandidatUseCase();
-  private deleteAllCandidatesUseCase = new DeleteAllCandidatesUseCase();
-
   async create(req: Request, res: Response) {
     try {
-      const [result, body] = await this.createCandidat.execute(req.body);
+      const [result, body] = await createCandidatUseCase.execute(req.body);
 
       switch(result) {
         case SaveCandidatResponse.OK:
@@ -43,7 +28,7 @@ export default class CandidatController {
     const langage = typeof req.query.langage === "string" ? req.query.langage : "";
 
     try {
-      const candidats = await this.listCandidatesUseCase.execute({ email: langage });
+      const candidats = await listCandidatesUseCase.execute({ email: langage });
 
       res.status(200).send(candidats);
     } catch (err) {
@@ -57,7 +42,7 @@ export default class CandidatController {
     const id: number = parseInt(req.params.id);
 
     try {
-      const candidat = await this.findCandidatUseCase.execute(id);
+      const candidat = await findCandidatUseCase.execute(id);
 
       if (candidat) res.status(200).send(candidat);
       else
@@ -76,7 +61,7 @@ export default class CandidatController {
     candidat.id = parseInt(req.params.id);
 
     try {
-      const num = await this.updateCandidatUseCase.execute(candidat);
+      const num = await updateCandidatUseCase.execute(candidat);
 
       if (num == 1) {
         res.status(204).send({
@@ -98,7 +83,7 @@ export default class CandidatController {
     const id: number = parseInt(req.params.id);
 
     try {
-      const num = await this.deleteCandidatUseCase.execute(id);
+      const num = await deleteCandidatUseCase.execute(id);
 
       if (num == 1) {
         res.status(204).send({
@@ -118,7 +103,7 @@ export default class CandidatController {
 
   async deleteAll(req: Request, res: Response) {
     try {
-      const num = await this.deleteAllCandidatesUseCase.execute();
+      const num = await deleteAllCandidatesUseCase.execute();
 
       res.status(204).send({ message: `${num} Candidats were deleted successfully!` });
     } catch (err) {

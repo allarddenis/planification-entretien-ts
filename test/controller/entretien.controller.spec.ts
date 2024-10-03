@@ -2,14 +2,9 @@ import EntretienSQL from '@infrastructure/db/entretien/entretien.sql';
 import RecruteurSQL from '@infrastructure/db/recruteur/recruteur.sql';
 import CandidatSQL from '@infrastructure/db/candidat/candidat.sql';
 import { app } from '@infrastructure/api/app';
-import registry from "@registry/registry";
-import { notificationService } from '@domain/notification/notification.service';
+import { candidatRepository, entretienRepository, notificationService, recruteurRepository } from '@registry/registry';
 
 const request = require('supertest');
-
-const candidatRepository = registry.repositories.candidatRepository;
-const entretienRepository = registry.repositories.entretienRepository;
-const recruteurRepository = registry.repositories.recruteurRepository;
 
 describe('Entretien', () => {
     const envoyerEmailAuCandidatMock = jest.spyOn(notificationService, 'envoyerEmailDeConfirmationAuCandidat');

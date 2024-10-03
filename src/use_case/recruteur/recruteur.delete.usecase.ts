@@ -1,10 +1,10 @@
-import registry from "@registry/registry";
+import { IRecruteurRepository } from "@domain/recruteur";
 
 export class DeleteRecruteurUseCase {
 
-    private static recruteurRepository = registry.repositories.recruteurRepository;
+    constructor(private recruteurRepository: IRecruteurRepository) {}
 
-    static async execute(recruteurId: number): Promise<number> {
+    async execute(recruteurId: number): Promise<number> {
         return await this.recruteurRepository.delete(recruteurId);
     }
 }

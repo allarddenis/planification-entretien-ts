@@ -1,9 +1,8 @@
-import { Candidat } from "@domain/candidat";
-import registry from "@registry/registry";
+import { Candidat, ICandidatRepository } from "@domain/candidat";
 
 export class ListCandidatesUseCase {
 
-    private candidatRepository = registry.repositories.candidatRepository;
+    constructor(private candidatRepository: ICandidatRepository) {}
 
     async execute(searchParams: { email?: string }): Promise<Candidat[]> {
         return await this.candidatRepository.retrieveAll(searchParams);

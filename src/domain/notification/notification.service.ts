@@ -1,4 +1,4 @@
-class NotificationService {
+export class NotificationService {
 
     async envoyerEmailDeConfirmationAuCandidat(email: string) {
         return Promise.resolve(true);
@@ -8,5 +8,3 @@ class NotificationService {
         return Promise.resolve(true);
     }
 }
-
-export const notificationService = new NotificationService();

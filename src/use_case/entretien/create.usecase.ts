@@ -1,12 +1,25 @@
 import { ICreationEntretienHttpRequest } from "@infrastructure/api/entretien/entretien.inputs";
-import { PlanificationResult, IEntretien, Entretien } from "@domain/entretien";
-import registry from "@registry/registry";
+import { PlanificationResult, IEntretien, Entretien, IEntretienRepository } from "@domain/entretien";
+import { ICandidatRepository } from "@domain/candidat";
+import { IRecruteurRepository } from "@domain/recruteur";
+import { INotificationService } from "@domain/notification";
 
-class CreateEntretienUseCase {
-    private entretienRepository = registry.repositories.entretienRepository;
-    private candidatRepository = registry.repositories.candidatRepository;
-    private recruteurRepository = registry.repositories.recruteurRepository;
-    private notificationService = registry.services.notificationService;
+interface ICreateEntretienUseCase {
+    execute(req: ICreationEntretienHttpRequest) : Promise<[PlanificationResult, IEntretien | null]>;
+}
+
+export class CreateEntretienUseCase {
+    private entretienRepository: IEntretienRepository;
+    private candidatRepository: ICandidatRepository;
+    private recruteurRepository: IRecruteurRepository;
+    private notificationService: INotificationService;
+
+    constructor(entretienRepository: IEntretienRepository, candidatRepository: ICandidatRepository, recruteurRepository: IRecruteurRepository, notificationService: INotificationService) {
+        this.entretienRepository = entretienRepository;
+        this.candidatRepository = candidatRepository;
+        this.recruteurRepository = recruteurRepository;
+        this.notificationService = notificationService;
+    }
 
     async execute(req: ICreationEntretienHttpRequest) : Promise<[PlanificationResult, IEntretien | null]> {
         if (req.disponibiliteRecruteur != req.horaire) {
@@ -29,5 +42,3 @@ class CreateEntretienUseCase {
         return [PlanificationResult.OK, savedEntretien];
     }
 }
-
-export const createEntretienUseCase = new CreateEntretienUseCase();

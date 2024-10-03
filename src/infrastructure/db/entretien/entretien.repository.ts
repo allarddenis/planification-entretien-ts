@@ -5,7 +5,7 @@ interface SearchCondition {
   [key: string]: any;
 }
 
-class EntretienRepository {
+export class SqlEntretienRepository {
   async save(entretien: Entretien): Promise<Entretien> {
     try {
       return await EntretienSQL.create({
@@ -70,5 +70,3 @@ class EntretienRepository {
     }
   }
 }
-
-export const sqlEntretienRepository = new EntretienRepository();

@@ -1,21 +1,21 @@
-import { sqlCandidatRepository } from '@infrastructure/db/candidat';
 import CandidatSQL from '@infrastructure/db/candidat/candidat.sql';
 import { app } from '@infrastructure/api/app';
+import { candidatRepository } from '@registry/registry';
 
 const request = require('supertest');
 
 describe("Candidat", () => {
 
     beforeAll(async  () => {
-       await sqlCandidatRepository.deleteAll();
+       await candidatRepository.deleteAll();
     });
 
     beforeEach(async  () => {
-       await sqlCandidatRepository.deleteAll();
+       await candidatRepository.deleteAll();
     });
 
     afterAll(async () => {
-        await sqlCandidatRepository.deleteAll();
+        await candidatRepository.deleteAll();
     });
 
     it("Un candidat est crée quand toutes ses informations sont complètes", async () => {
@@ -29,7 +29,7 @@ describe("Candidat", () => {
         // then
         expect(response.statusCode).toBe(201);
 
-        const candidat = await sqlCandidatRepository.retrieveById(response.body.id);
+        const candidat = await candidatRepository.retrieveById(response.body.id);
         expect(candidat).not.toBeNull();
     });
 
@@ -68,7 +68,7 @@ describe("Candidat", () => {
         // then
         expect(response.statusCode).toBe(400);
 
-        const candidats = await sqlCandidatRepository.retrieveAll({email: 'invalid-email'});
+        const candidats = await candidatRepository.retrieveAll({email: 'invalid-email'});
         expect(candidats.length).toBe(0);
     });
 
@@ -83,7 +83,7 @@ describe("Candidat", () => {
         // then
         expect(response.statusCode).toBe(400);
 
-        const candidats = await sqlCandidatRepository.retrieveAll({email: 'candidat-annee-xp-vide@mail.com'});
+        const candidats = await candidatRepository.retrieveAll({email: 'candidat-annee-xp-vide@mail.com'});
         expect(candidats.length).toBe(0);
     });
 
@@ -98,7 +98,7 @@ describe("Candidat", () => {
         // then
         expect(response.statusCode).toBe(400);
 
-        const candidats = await sqlCandidatRepository.retrieveAll({email: 'candidat-annee-xp-negatif'});
+        const candidats = await candidatRepository.retrieveAll({email: 'candidat-annee-xp-negatif'});
         expect(candidats.length).toBe(0);
     });
 
@@ -116,7 +116,7 @@ describe("Candidat", () => {
         expect(response.body.email).toEqual("candidat-existant@mail.com");
         expect(response.body.xp).toEqual(5);
 
-        const candidats = await sqlCandidatRepository.retrieveAll({email:'candidat-existant@mail.com'});
+        const candidats = await candidatRepository.retrieveAll({email:'candidat-existant@mail.com'});
         expect(candidats.length).toBe(1);
     });
 
@@ -140,7 +140,7 @@ describe("Candidat", () => {
         // then
         expect(response.statusCode).toBe(204);
 
-        const candidat = await sqlCandidatRepository.retrieveById(id || 0);
+        const candidat = await candidatRepository.retrieveById(id || 0);
         expect(candidat).toBe(null);
     });
 
@@ -167,7 +167,7 @@ describe("Candidat", () => {
         // then
         expect(response.statusCode).toBe(204);
 
-        const candidat = await sqlCandidatRepository.retrieveById(id || 0);
+        const candidat = await candidatRepository.retrieveById(id || 0);
         expect(candidat?.langage).toBe('c#');
     });
 
@@ -208,7 +208,7 @@ describe("Candidat", () => {
 
         // then
         expect(response.statusCode).toBe(204);
-        const candidats = await sqlCandidatRepository.retrieveAll({email: 'candidat-a-supprimer@email.com'});
+        const candidats = await candidatRepository.retrieveAll({email: 'candidat-a-supprimer@email.com'});
         expect(candidats.length).toBe(0);
     });
 });

@@ -6,7 +6,7 @@ interface SearchCondition {
   [key: string]: any;
 }
 
-class RecruteurRepository {
+export class SqlRecruteurRepository {
   async save(recruteur: Recruteur): Promise<Recruteur> {
     try {
       return await RecruteurSQL.create({
@@ -76,5 +76,3 @@ class RecruteurRepository {
     }
   }
 }
-
-export const sqlRecruteurRepository = new RecruteurRepository();

@@ -1,9 +1,9 @@
-import { Entretien } from "@domain/entretien";
-import registry from "@registry/registry";
+import { Entretien, IEntretienRepository } from "@domain/entretien";
 
 export class ListEntretiensUseCase {
-    private entretienRepository = registry.repositories.entretienRepository;
 
+    constructor(private entretienRepository: IEntretienRepository) {}
+    
     async execute(): Promise<Entretien[]> {
         return await this.entretienRepository.retrieveAll();
     }

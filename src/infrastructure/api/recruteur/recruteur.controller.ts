@@ -1,20 +1,13 @@
 import { Recruteur } from "@domain/recruteur";
 import { SaveRecruteurResponse } from "@domain/recruteur";
+import { createRecruteurUseCase, deleteAllRecrutersUseCase, deleteRecruteurUseCase, findRecruiterUseCase, listRecrutersUseCase, updateRecruteurUseCase } from "@registry/registry";
 import { Request, Response } from "express";
-import { 
-  CreateRecruteurUseCase,
-  DeleteAllRecrutersUseCase,
-  DeleteRecruteurUseCase,
-  FindRecruiterUseCase,
-  ListRecrutersUseCase,
-  UpdateRecruteurUseCase
-} from '@use_case/recruteur';
 
 export default class RecruteurController {
 
   async create(req: Request, res: Response) {
     try {
-      const [result, body] = await CreateRecruteurUseCase.execute(req.body);
+      const [result, body] = await createRecruteurUseCase.execute(req.body);
 
       switch(result) {
         case SaveRecruteurResponse.OK:
@@ -37,7 +30,7 @@ export default class RecruteurController {
     const langage = typeof req.query.langage === "string" ? req.query.langage : "";
 
     try {
-      const recruteurs = await ListRecrutersUseCase.execute({ email: langage });
+      const recruteurs = await listRecrutersUseCase.execute({ email: langage });
 
       res.status(200).send(recruteurs);
     } catch (err) {
@@ -51,7 +44,7 @@ export default class RecruteurController {
     const id: number = parseInt(req.params.id);
 
     try {
-      const recruteur = await FindRecruiterUseCase.execute(id);
+      const recruteur = await findRecruiterUseCase.execute(id);
 
       if (recruteur) res.status(200).send(recruteur);
       else
@@ -70,7 +63,7 @@ export default class RecruteurController {
     recruteur.id = parseInt(req.params.id);
 
     try {
-      const num = await UpdateRecruteurUseCase.execute(recruteur);
+      const num = await updateRecruteurUseCase.execute(recruteur);
 
       if (num == 1) {
         res.status(204).send({
@@ -92,7 +85,7 @@ export default class RecruteurController {
     const id: number = parseInt(req.params.id);
 
     try {
-      const num = await DeleteRecruteurUseCase.execute(id);
+      const num = await deleteRecruteurUseCase.execute(id);
 
       if (num == 1) {
         res.status(204).send({
@@ -112,7 +105,7 @@ export default class RecruteurController {
 
   async deleteAll(req: Request, res: Response) {
     try {
-      const num = await DeleteAllRecrutersUseCase.execute();
+      const num = await deleteAllRecrutersUseCase.execute();
 
       res.status(204).send({ message: `${num} Recruteurs were deleted successfully!` });
     } catch (err) {

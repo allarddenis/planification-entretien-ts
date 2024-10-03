@@ -1,11 +1,14 @@
-import { Recruteur } from "@domain/recruteur";
-import registry from "@registry/registry";
+import { IRecruteurRepository, Recruteur } from "@domain/recruteur";
 
 export class UpdateRecruteurUseCase {
 
-    private static recruteurRepository = registry.repositories.recruteurRepository;
+    private recruteurRepository: IRecruteurRepository;
 
-    static async execute(recruteur: Recruteur): Promise<number> {
+    constructor(recruteurRepository: IRecruteurRepository){
+        this.recruteurRepository = recruteurRepository;
+    }
+
+    async execute(recruteur: Recruteur): Promise<number> {
         return await this.recruteurRepository.update(recruteur);
     }
 }

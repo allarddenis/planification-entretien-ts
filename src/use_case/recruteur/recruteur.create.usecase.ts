@@ -1,11 +1,10 @@
-import { Recruteur, SaveRecruteurRequest, SaveRecruteurResponse } from "@domain/recruteur";
-import registry from "@registry/registry";
+import { IRecruteurRepository, Recruteur, SaveRecruteurRequest, SaveRecruteurResponse } from "@domain/recruteur";
 
 export class CreateRecruteurUseCase {
 
-    private static recruteurRepository = registry.repositories.recruteurRepository;
+    constructor(private recruteurRepository: IRecruteurRepository) {}
 
-    static async execute(req: SaveRecruteurRequest) : Promise<[SaveRecruteurResponse, Recruteur | null]> {
+    async execute(req: SaveRecruteurRequest) : Promise<[SaveRecruteurResponse, Recruteur | null]> {
         let isEmailValid: boolean;
 
         const regexp: RegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;

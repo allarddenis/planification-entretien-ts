@@ -1,11 +1,10 @@
-import { Recruteur } from "@domain/recruteur";
-import registry from "@registry/registry";
+import { IRecruteurRepository, Recruteur } from "@domain/recruteur";
 
 export class FindRecruiterUseCase {
 
-    private static recruteurRepository = registry.repositories.recruteurRepository;
+    constructor(private recruteurRepository: IRecruteurRepository) {}
 
-    static async execute(recruteurId: number): Promise<Recruteur | null> {
+    async execute(recruteurId: number): Promise<Recruteur | null> {
         return await this.recruteurRepository.retrieveById(recruteurId);
     }
 }

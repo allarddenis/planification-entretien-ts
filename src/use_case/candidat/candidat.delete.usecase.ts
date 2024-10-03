@@ -1,8 +1,8 @@
-import registry from "@registry/registry";
+import { ICandidatRepository } from "@domain/candidat";
 
 export class DeleteCandidatUseCase {
 
-    private candidatRepository = registry.repositories.candidatRepository;
+    constructor(private candidatRepository: ICandidatRepository) {}
 
     async execute(candidatId: number): Promise<number> {
         return await this.candidatRepository.delete(candidatId);

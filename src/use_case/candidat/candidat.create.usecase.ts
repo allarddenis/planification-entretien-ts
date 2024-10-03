@@ -1,9 +1,7 @@
-import { Candidat, SaveCandidatRequest, SaveCandidatResponse } from "@domain/candidat";
-import registry from "@registry/registry";
-
+import { Candidat, ICandidatRepository, SaveCandidatRequest, SaveCandidatResponse } from "@domain/candidat";
 export class CreateCandidatUseCase {
 
-    private candidatRepository = registry.repositories.candidatRepository;
+    constructor(private candidatRepository: ICandidatRepository) {}
 
     async execute(req: SaveCandidatRequest) : Promise<[SaveCandidatResponse, Candidat | null]> {
         let isEmailValid: boolean;
