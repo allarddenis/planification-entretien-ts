@@ -6,8 +6,8 @@ export interface SaveCandidatRequest {
 }
 
 export enum SaveCandidatResult {
-    OK,
-    EMPTY_CONTENT
+    OK = 'OK',
+    EMPTY_CONTENT = 'EMPTY_CONTENT'
 }
 
 export interface ICandidat {
@@ -28,7 +28,7 @@ export class Candidat {
 
         isEmailValid = regexp.test(this.email || '');
 
-        if (!this.langage || !this.xp || this.xp < 0 || !this.email || !isEmailValid) {
+        if (!this.langage || !this.xp || this.xp < 0 || !this.email || !isEmailValid || this.email.endsWith('neosoft.fr')) {
             return SaveCandidatResult.EMPTY_CONTENT;
         }
 
